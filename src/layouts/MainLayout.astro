@@ -1,0 +1,38 @@
+---
+// src/layouts/MainLayout.astro
+const { title } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>{title}</title>
+  <link rel="stylesheet" href="/styles/global.css">
+</head>
+<body class="bg-black min-h-screen flex flex-col">
+  <header class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
+    <div class="text-2xl font-bold">Hacker Resource Guide</div>
+    <nav class="flex gap-6">
+      <a href="/" class="px-3 py-1 rounded text-purple-400 bg-purple-900 font-semibold">Home</a>
+      <a href="/sql" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">SQL Injection</a>
+      <a href="/xss" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">XSS</a>
+      <a href="/csrf" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">CSRF</a>
+      <a href="/rce" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">RCE</a>
+      <a href="/lfi" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">LFI</a>
+      <a href="/idor" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">IDOR</a>
+      <a href="/ssrf" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">SSRF</a>
+      <a href="/clickjacking" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">Clickjacking</a>
+      <a href="/open-redirect" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">Open Redirect</a>
+    </nav>
+  </header>
+  <main class="flex-1 flex flex-col items-center py-8">
+    <h2 class="text-4xl font-bold text-purple-600 mb-10">Hacker Resource Guide</h2>
+    <slot />
+  </main>
+  <footer class="bg-red-900 text-white py-4 px-8 mt-auto">
+    <div class="font-bold mb-1">Legal Notice</div>
+    <div class="text-sm">This content is provided for educational purposes only. Never test security vulnerabilities against systems without explicit permission. Unauthorized testing may violate laws.</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  chaos-resource-guide:
+    build: .
+    image: chaos-resource-guide:latest
+    ports:
+      - "4321:4321"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped

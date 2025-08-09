@@ -1,0 +1,26 @@
+:root {
+  font-family: 'Courier New', monospace;
+  line-height: 1.5;
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+}
+
+a {
+  color: #ff5555;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  margin-top: 2rem;
+  border-top: 1px solid #333;
+  font-size: 0.9rem;
+}

@@ -1,0 +1,30 @@
+---
+// src/pages/[...slug].astro
+import MainLayout from '../layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const terms = await getCollection('terms');
+  return terms.map(term => ({
+    params: { slug: term.slug },
+    props: { term },
+  }));
+}
+
+const { term } = Astro.props;
+const { Content } = await term.render();
+---
+<MainLayout title={term.data.title}>
+  <article>
+    <h1>{term.data.title}</h1>
+    <Content />
+  </article>
+</MainLayout>
+
+<style>
+  article {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+</style>

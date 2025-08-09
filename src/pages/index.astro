@@ -1,0 +1,25 @@
+---
+// src/pages/index.astro
+import MainLayout from '../layouts/MainLayout.astro';
+import TermCard from '../components/TermCard.astro';
+const terms = [
+  { acronym: "SQL", fullName: "SQL Injection", slug: "sql", color: "bg-red-400" },
+  { acronym: "XSS", fullName: "Cross-Site Scripting", slug: "xss", color: "bg-orange-400" },
+  { acronym: "CSRF", fullName: "Cross-Site Request Forgery", slug: "csrf", color: "bg-blue-200 text-blue-900" },
+  { acronym: "RCE", fullName: "Remote Code Execution", slug: "rce", color: "bg-green-600" },
+  { acronym: "LFI", fullName: "Local File Inclusion", slug: "lfi", color: "bg-purple-500" },
+  { acronym: "IDOR", fullName: "Insecure Direct Object Reference", slug: "idor", color: "bg-pink-500" },
+  { acronym: "SSRF", fullName: "Server-Side Request Forgery", slug: "ssrf", color: "bg-orange-400" },
+  { acronym: "Clickjacking", fullName: "Clickjacking", slug: "clickjacking", color: "bg-green-500" },
+  { acronym: "Open Redirect", fullName: "Open Redirect", slug: "open-redirect", color: "bg-red-600" },
+];
+---
+<MainLayout title="Hacker Resource Guide">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-6xl mx-auto px-4">
+    {terms.map(term => (
+      <a href={`/${term.slug}`} class="block">
+        <TermCard term={term} />
+      </a>
+    ))}
+  </div>
+</MainLayout>
