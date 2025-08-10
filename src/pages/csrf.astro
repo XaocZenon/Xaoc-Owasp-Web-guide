@@ -1,0 +1,293 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { Code } from 'astro/components';
+---
+<MainLayout title="CSRF (Cross-Site Request Forgery)">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <h1 class="text-4xl font-bold text-purple-600 mb-4">CSRF (Cross-Site Request Forgery)</h1>
+  <div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="text-lg font-bold text-yellow-400 mb-2" dir="rtl" >CSRF چیست؟</div>
+    <ul class="list-disc list-inside text-white" dir="rtl" style="text-align: right;">
+      <li>جعل درخواست بین‌سایتی (CSRF) حمله‌ای است که کاربران احراز هویت شده را فریب می‌دهد</li>
+      <li>تا درخواست‌های ناخواسته‌ای را به یک برنامه وب که در حال حاضر به آن وارد شده‌اند، ارسال کنند.</li>
+    </ul>
+  </div>
+    <div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
+    <div class="text-lg font-bold text-yellow-400 mb-2" dir="rtl">شدت تأثیر CSRF:</div>
+    <ul class="list-disc list-inside text-white" dir="rtl" style="text-align: right;">
+      <li>تغییرات غیرمجاز حساب
+تراکنش‌های مالی (انتقال، خرید)</li>
+      <li>اصلاح یا حذف داده‌ها</li>
+      <li>تصاحب حساب</li>
+      <li>افزایش سطح دسترسی</li>
+    </ul>
+</div>
+<h2 class="text-3xl font-bold text-red-600 mb-6">Red Team Techniques (Offensive)</h2>
+  <div class="bg-slate-800 rounded-xl p-6 mb-6">
+    <div class="text-xl font-bold text-red-400 mb-2">1. Basic CSRF</div>
+    <p class="text-white font-bold mb-2" dir="rtl" style="text-align: right;">CSRF پایه</p>
+    <p class="text-white mb-4" dir="rtl" style="text-align: right;">
+        CSRF پایه (جعل درخواست بین سایتی) زمانی رخ می‌دهد که یک مهاجم کاربر وارد شده را فریب می‌دهد تا یک درخواست جعلی به یک برنامه وب ارسال کند. از آنجا که مرورگر به طور خودکار اعتبار (مانند کوکی‌ها) را شامل می‌شود، عمل بدون رضایت کاربر انجام می‌شود - اغلب از طریق فرم‌های مخفی یا منابعی که به طور خودکار بارگیری می‌شوند.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">فرم ارسال خودکار ساده:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">&lt;form action="https://bank.com/transfer" method="POST"&gt;
+    &lt;input type="hidden" name="amount" value="1000"&gt;
+    &lt;input type="hidden" name="to" value="attacker"&gt;
+&lt;/form&gt;
+&lt;script&gt;document.forms[0].submit()&lt;/script&gt;</pre>
+    <p class="text-gray-300 mb-4 text-sm" dir="rtl" style="text-align: right;">این کد به طور خودکار یک درخواست POST برای انتقال وجه ارسال می‌کند زمانی که قربانی صفحه مخرب را بازدید می‌کند</p>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">اکسپلویت تگ تصویر GET:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">&lt;img src="https://example.com/delete?id=123" /&gt;</pre>
+    <p class="text-gray-300 mb-4 text-sm" dir="rtl" style="text-align: right;">یک درخواست GET ساده که از طریق بارگیری تصویر ارسال می‌شود می‌تواند تغییرات وضعیت ناخواسته ایجاد کند</p>
+    
+    <div class="bg-red-800 rounded-xl p-6 mt-6 mb-8" dir="rtl">
+        <div class="text-lg font-bold text-white mb-2">بردارهای رایج سوءاستفاده:</div>
+        <ul class="list-disc list-inside text-white space-y-3">
+            <li><strong>فرم‌های مخفی:</strong> ارسال خودکار با جاوااسکریپت یا متا رفرش</li>
+            <li><strong>درخواست‌های GET:</strong> استفاده از تگ‌های تصویر، iframe یا اسکریپت</li>
+            <li><strong>پیکربندی نادرست CORS:</strong> اجازه CSRF مبتنی بر جاوااسکریپت با اعتبار</li>
+            <li><strong>جاسازی شخص ثالث:</strong> سوءاستفاده از نقاط پایانی ناامن در محتوای جاسازی شده</li>
+        </ul>
+    </div>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">روش‌های تحویل:</div>
+    <ul class="list-disc list-inside text-white mb-4" dir="rtl" style="text-align: right;">
+        <li>ایمیل یا پست وبلاگ مخرب حاوی فرم ارسال خودکار</li>
+        <li>تبلیغات یا اسکریپت‌های تزریق شده در وبسایت‌های به خطر افتاده</li>
+        <li>کلیک‌جکینگ همراه با محرک‌های CSRF نامرئی</li>
+    </ul>
+</div>
+<div class="bg-slate-800 rounded-xl p-6 mb-6">
+    <div class="text-xl font-bold text-red-400 mb-2">2. GET-based CSRF</div>
+    <p class="text-white font-bold mb-2" dir="rtl" style="text-align: right;">CSRF مبتنی بر GET</p>
+    <p class="text-white mb-4" dir="rtl" style="text-align: right;">
+        CSRF مبتنی بر GET از برنامه‌های کاربردی وب که اقدامات حساس تغییر وضعیت را با استفاده از درخواست‌های GET انجام می‌دهند سوءاستفاده می‌کند. از آنجا که مرورگرها به طور خودکار کوکی‌ها را با همه درخواست‌ها ارسال می‌کنند، حتی یک لینک ساده یا بارگیری تصویر می‌تواند اقدامات خطرناکی را بدون رضایت کاربر فعال کند.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">مثال کلاسیک اکسپلویت:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">&lt;img src="https://vulnerable-site.com/deleteAccount?user=123" /&gt;</pre>
+    <p class="text-gray-300 mb-4 text-sm" dir="rtl" style="text-align: right;">به طور خودکار یک درخواست GET به یک نقطه پایانی مخرب ارسال می‌کند زمانی که تصویر بارگیری می‌شود</p>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">مثال لینک مخرب:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">&lt;a href="https://vulnerable-site.com/upgradeRole?user=attacker&role=admin"&gt;
+  برای دریافت هدیه رایگان اینجا کلیک کنید!
+&lt;/a&gt;</pre>
+    <p class="text-gray-300 mb-4 text-sm" dir="rtl" style="text-align: right;">فریب مهندسی اجتماعی برای ترغیب قربانی به کلیک روی URLی که دسترسی مهاجم را ارتقا می‌دهد</p>
+    
+    <div class="bg-red-800 rounded-xl p-6 mt-6 mb-8" dir="rtl">
+        <div class="text-lg font-bold text-white mb-2">تکنیک‌های سوءاستفاده:</div>
+        <ul class="list-disc list-inside text-white space-y-3">
+            <li><strong>تصاویر با بارگیری خودکار:</strong> تحویل ساده و مخفیانه از طریق تگ‌های &lt;img&gt;</li>
+            <li><strong>iframeهای نامرئی:</strong> درخواست‌های GET را بدون دید کاربر فعال می‌کند</li>
+            <li><strong>طعمه قابل کلیک:</strong> لینک‌ها یا دکمه‌های مخرب استتار شده</li>
+            <li><strong>HTML تزریق شده:</strong> در انجمن‌ها، نظرات یا پلتفرم‌های تبلیغاتی</li>
+        </ul>
+    </div>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">روش‌های تحویل:</div>
+    <ul class="list-disc list-inside text-white mb-4" dir="rtl" style="text-align: right;">
+        <li>ایمیل‌های فیشینگ حاوی تصاویر یا لینک‌های مخرب</li>
+        <li>محتواهای ارسال شده در شبکه‌های اجتماعی</li>
+        <li>وبسایت‌های به خطر افتاده که محتوای مخرب تزریق می‌کنند</li>
+        <li>تغییر مسیر مرورگر یا تگ‌های meta-refresh</li>
+    </ul>
+</div>
+<div class="bg-slate-800 rounded-xl p-6 mb-6">
+    <div class="text-xl font-bold text-red-400 mb-2">3. JSON-based CSRF</div>
+    <p class="text-white font-bold mb-2" dir="rtl" style="text-align: right;">CSRF مبتنی بر JSON</p>
+    <p class="text-white mb-4" dir="rtl" style="text-align: right;">
+        CSRF مبتنی بر JSON APIهایی را هدف قرار می‌دهد که محموله‌های JSON را از طریق نشست‌های احراز هویت شده، معمولاً از طریق درخواست‌های POST، PUT یا DELETE می‌پذیرند. برخلاف CSRF پایه، این حمله معمولاً نیاز به دور زدن محافظت‌هایی مانند اعتبارسنجی 'Content-Type'، سیاست‌های 'CORS' یا توکن‌های CSRF دارد.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">تلاش اکسپلویت از طریق جاوااسکریپت:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm overflow-x-auto">
+{`<script>
+fetch("https://api.victim.com/change-email", {
+  method: "POST",
+  credentials: "include",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    email: "attacker@example.com"
+  })
+});
+</script>`}
+</pre>
+    <p class="text-gray-300 mb-4 text-sm" dir="rtl" style="text-align: right;">یک درخواست JSON احراز هویت شده با استفاده از کوکی‌های مرورگر قربانی ارسال می‌کند</p>
+    
+    <div class="bg-red-800 rounded-xl p-6 mt-6 mb-8" dir="rtl">
+        <div class="text-lg font-bold text-white mb-2">بردارهای رایج دور زدن:</div>
+        <ul class="list-disc list-inside text-white space-y-3">
+            <li><strong>سیاست‌های CORS باز:</strong> پیکربندی نادرست هدرهای Access-Control-Allow-Origin</li>
+            <li><strong>عدم وجود توکن‌های CSRF:</strong> APIهای بدون تأیید مبتنی بر توکن</li>
+            <li><strong>پرچم‌های SameSite مفقود:</strong> اجازه نشت کوکی با درخواست‌های بین سایتی</li>
+            <li><strong>پیکربندی‌های نادرست Content-Type:</strong> پذیرش 'application/json' از منابع شخص ثالث</li>
+        </ul>
+    </div>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">روش‌های تحویل:</div>
+    <ul class="list-disc list-inside text-white mb-4" dir="rtl" style="text-align: right;">
+        <li>اسکریپت‌های به خطر افتاده که فراخوانی‌های fetch() را تزریق می‌کنند</li>
+        <li>افزونه‌ها یا بوکمارکلیت‌های مخرب مرورگر</li>
+        <li>مهندسی اجتماعی هدف‌گیری توسعه‌دهندگان/مدیران</li>
+        <li>تزریق ویجت یا iframe بین سایتی در برنامه‌های مورد اعتماد</li>
+    </ul>
+</div>
+<div class="bg-slate-800 rounded-xl p-6 mb-6">
+    <div class="text-xl font-bold text-red-400 mb-2">4. Login CSRF</div>
+    <p class="text-white font-bold mb-2" dir="rtl" style="text-align: right;">CSRF درصفحه ورودی</p>
+    <p class="text-white mb-4" dir="rtl" style="text-align: right;">
+        CSRF ورود به سیستم (جعل درخواست بین سایتی در حین احراز هویت) کاربر را مجبور می‌کند تا به عنوان حساب دیگری که توسط مهاجم کنترل می‌شود وارد شود. این می‌تواند منجر به سردرگمی امتیازات، استخراج داده‌ها یا دسترسی غیرمجاز شود، به ویژه اگر برنامه از احراز هویت مبتنی بر نشست بدون محافظت‌های قوی CSRF استفاده کند.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">مثال اکسپلویت:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm overflow-x-auto">
+{`<form action="https://target.com/login" method="POST">
+    <input type="hidden" name="username" value="attacker@example.com">
+    <input type="hidden" name="password" value="attackerPassword123">
+</form>
+<script>document.forms[0].submit()</script>`}
+    </pre>
+    <p class="text-gray-300 mb-4 text-sm" dir="rtl" style="text-align: right;">قربانی را مجبور می‌کند به عنوان حساب مهاجم وارد شود و نشست خود را بازنویسی کند</p>
+    
+    <div class="bg-red-800 rounded-xl p-6 mt-6 mb-8" dir="rtl">
+        <div class="text-lg font-bold text-white mb-2">سناریوهای تأثیرگذاری:</div>
+        <ul class="list-disc list-inside text-white space-y-3">
+            <li><strong>ثابت‌سازی نشست:</strong> قربانی تحت حساب مهاجم وارد می‌شود و داده‌های او را استفاده میکند</li>
+            <li><strong>نظارت خاموش:</strong> مهاجم فعالیت را نظارت یا داده‌های حساس را جمع‌آوری می‌کند</li>
+            <li><strong>ردیابی حسابرسی گمراه‌کننده:</strong> لاگ‌ها هویت مهاجم را برای اقدامات قربانی نشان می‌دهند</li>
+        </ul>
+    </div>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">روش‌های تحویل:</div>
+    <ul class="list-disc list-inside text-white mb-4" dir="rtl" style="text-align: right;">
+        <li>پست‌ها یا نظرات مخرب با فرم‌های ورود مخفی</li>
+        <li>شبکه‌های تبلیغاتی که اسکریپت‌های ورود خودکار خاموش را تزریق می‌کنند</li>
+        <li>مهندسی اجتماعی مبتنی بر مرورگر در انجمن‌ها یا برنامه‌های چت</li>
+    </ul>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">نکات پیشگیری:</div>
+    <ul class="list-disc list-inside text-white mb-4" dir="rtl" style="text-align: right;">
+        <li>پیاده‌سازی توکن‌های CSRF در تمام فرم‌های ورود</li>
+        <li>استفاده از کوکی‌های 'SameSite-Strict' برای جلوگیری از اشتراک‌گذاری اعتبار بین سایتی</li>
+        <li>استفاده از احراز هویت دو عاملی برای پیوند نشست‌ها به هویت مورد اعتماد</li>
+        <li>ورود خودکار کاربران را صرفاً بر اساس درخواست POST انجام ندهید</li>
+    </ul>
+</div>
+<!-- POST-based CSRF Section -->
+<div class="bg-slate-800 rounded-xl p-6 mb-6">
+    <div class="text-xl font-bold text-red-400 mb-2">5. POST-based CSRF</div>
+    <p class="text-white font-bold mb-2" dir="rtl" style="text-align: right;">CSRF مبتنی بر POST</p>
+    <p class="text-white mb-4" dir="rtl" style="text-align: right;">
+        CSRF مبتنی بر POST نقاط پایانی را هدف قرار می‌دهد که با استفاده از درخواست‌های POST وضعیت یا داده‌های حساس را تغییر می‌دهند. این حملات اغلب شامل ارسال خاموش فرم‌های جعلی با استفاده از کوکی‌های نشست قربانی است، که قصد کاربر را دور می‌زند و گاهی فاقد اعتبارسنجی مبتنی بر توکن است.
+    </p>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">مثال اکسپلویت پایه:</div>
+    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm overflow-x-auto">{`<form action="https://bank.com/transfer" method="POST">
+    <input type="hidden" name="to" value="attacker_account">
+    <input type="hidden" name="amount" value="5000">
+</form>
+<script>document.forms[0].submit()</script>`}</pre>
+    <p class="text-gray-300 mb-4 text-sm" dir="rtl" style="text-align: right;">به طور خودکار یک درخواست POST برای انتقال وجه بدون تعامل کاربر ارسال می‌کند</p>
+    
+    <div class="bg-red-800 rounded-xl p-6 mt-6 mb-8" dir="rtl">
+        <div class="text-lg font-bold text-white mb-2">اهداف رایج:</div>
+        <ul class="list-disc list-inside text-white space-y-3">
+            <li><strong>پورتال‌های بانکی:</strong> انتقال وجه یا به‌روزرسانی حساب</li>
+            <li><strong>پنل‌های مدیریتی:</strong> تغییر نقش یا حذف کاربران</li>
+            <li><strong>به‌روزرسانی پروفایل:</strong> تغییر ایمیل یا رمز عبور</li>
+            <li><strong>APIهای تنظیمات:</strong> فعال/غیرفعال کردن ویژگی‌ها</li>
+        </ul>
+    </div>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">روش‌های تحویل:</div>
+    <ul class="list-disc list-inside text-white mb-4" dir="rtl" style="text-align: right;">
+        <li>وبسایت‌های مخرب حاوی فرم‌های مخفی</li>
+        <li>ایمیل‌های HTML با محتوای ارسال خودکار</li>
+        <li>انجمن‌های به خطر افتاده یا تزریق تبلیغات</li>
+    </ul>
+    
+    <div class="font-semibold text-gray-200 mb-1" dir="rtl">تکنیک‌های کاهش خطر:</div>
+    <ul class="list-disc list-inside text-white mb-4" dir="rtl" style="text-align: right;">
+        <li>شامل کردن توکن‌های CSRF در تمام فرم‌های POST</li>
+        <li>اعمال اعتبارسنجی هدرهای origin و referer</li>
+        <li>تنظیم 'SameSite=Strict' یا 'Lax' برای کوکی‌های نشست</li>
+        <li>استفاده از CAPTCHA برای جلوگیری از ارسال خاموش</li>
+    </ul>
+</div>
+
+<!-- CSRF Tools Section -->
+<div class="bg-slate-800 rounded-xl p-6 mb-6">
+    <div class="text-xl font-bold text-red-400 mb-2">ابزارها و اتوماسیون CSRF</div>
+    
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">کشف و اسکن:</div>
+    <ul class="list-disc list-inside text-white space-y-2 mb-6">
+        <li><span class="text-blue-300">Burp Suite Scanner</span> - شناسایی آسیب‌پذیری‌های CSRF از طریق بررسی‌های غیرفعال و فعال</li>
+        <li><span class="text-blue-300">OWASP ZAP</span> - شامل قابلیت‌های تشخیص CSRF از طریق اسکن خودکار</li>
+        <li><span class="text-blue-300">CSRF Tester</span> - ابزار سبک‌وزن برای تست دستی مشکلات CSRF مبتنی بر فرم</li>
+    </ul>
+    
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">اکسپلویت و تولید PoC:</div>
+    <ul class="list-disc list-inside text-white space-y-2 mb-6">
+        <li><span class="text-blue-300">Burp Suite CSRF PoC Generator</span> - به طور خودکار فرم‌های HTML اثبات مفهوم ایجاد می‌کند</li>
+        <li><span class="text-blue-300">XSS Hunter</span> - برای سرقت توکن‌های CSRF از طریق XSS ذخیره شده یا انعکاسی استفاده می‌شود</li>
+        <li><span class="text-blue-300">Custom JavaScript payloads</span> - پیلودهای سفارشی برای ساخت حملات هدفمند</li>
+    </ul>
+    
+    <div class="font-semibold text-gray-200 mb-2" dir="rtl">تحلیل و گزارش‌دهی:</div>
+    <ul class="list-disc list-inside text-white space-y-2">
+        <li><span class="text-blue-300">Browser Developer Tools</span> - بررسی قرارگیری توکن، پرچم‌های کوکی و رفتار فرم</li>
+        <li><span class="text-blue-300">Token Analysis Scripts</span> - ارزیابی قدرت توکن، پیش‌بینی‌پذیری و تولید مجدد</li>
+        <li><span class="text-blue-300">Request Analyzers</span> - بررسی و تکرار درخواست‌های محافظت‌شده برای یافتن نقاط ضعف</li>
+    </ul>
+</div>
+<h2 class="text-3xl font-bold text-white mb-4">Additional Resources & References</h2>
+<div class="bg-slate-800 rounded-xl p-6 mb-6">
+    <div class="text-lg font-bold text-yellow-400 mb-2">Learning Resources</div>
+    <ul class="list-disc list-inside text-blue-300">
+        <li><a href="https://owasp.org/www-community/attacks/csrf" class="hover:underline" target="_blank" rel="noopener noreferrer">OWASP CSRF — Complete documentation and examples</a></li>
+        <li><a href="https://portswigger.net/web-security/csrf" class="hover:underline" target="_blank" rel="noopener noreferrer">PortSwigger CSRF Academy — Interactive labs</a></li>
+        <li><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/CSRF%20Injection" class="hover:underline" target="_blank" rel="noopener noreferrer">PayloadsAllTheThings — CSRF cheatsheet</a></li>
+    </ul>
+</div>
+<div class="bg-slate-800 rounded-xl p-6 mb-6">
+    <div class="text-lg font-bold text-yellow-400 mb-2">Security Tools</div>
+    <ul class="list-disc list-inside text-blue-300">
+        <li><a href="https://portswigger.net/burp/documentation/desktop/tools/generate-csrf-poc" class="hover:underline" target="_blank" rel="noopener noreferrer">Burp Suite — CSRF PoC generator</a></li>
+        <li><a href="https://www.zaproxy.org/docs/alerts/40034/" class="hover:underline" target="_blank" rel="noopener noreferrer">OWASP ZAP — CSRF scanner</a></li>
+        <li><a href="https://github.com/0xInfection/XSRFProbe" class="hover:underline" target="_blank" rel="noopener noreferrer">XSRFProbe — Advanced CSRF testing</a></li>
+    </ul>
+</div>
+</MainLayout>
+<style>
+  /* Ensure consistent card heights in grid */
+  @media (min-width: 768px) {
+    .grid > div {
+      display: flex;
+      flex-direction: column;
+    }
+    .grid > div > *:last-child {
+      margin-top: auto;
+    }
+  }
+  
+  /* Better RTL support */
+  [dir="rtl"] {
+    text-align: right;
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+  }
+  
+  /* Smooth scrolling for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Better pre tag wrapping */
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+</style>

@@ -1,6 +1,6 @@
 
 
-# 🛡️ Chaos Resource Guide — Web Security
+# 🛡️ Chaos Owasp Guide — Web Security
 
 ## 👀 Site Previews
 
