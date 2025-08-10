@@ -11,7 +11,7 @@ You can view previews of the site in the `preview` directory as PNG images:
 ![XSS Section](preview/XssPage.png)
 
 
-> 🧠 **Maintained by Xaos-meltdown — a comprehensive, visually-rich guide for web application security enthusiasts and Red Teamers.**
+> 🧠 **Maintained by XaocZenon — a comprehensive, visually-rich guide for web application security enthusiasts.**
 
 Welcome! This project is a modern Astro + Tailwind CSS web app focused on practical learning and reference for web application vulnerabilities, especially SQL Injection. It features dark dashboard-inspired UI, Persian (Farsi) translation, RTL layout, and custom font (Vazirmatn).
 
