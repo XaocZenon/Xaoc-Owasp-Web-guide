@@ -14,13 +14,13 @@ You can view previews of the site in the `preview` directory as PNG images:
 
 > 🧠 **Maintained by XaocZenon — a comprehensive, visually-rich guide for web application security enthusiasts.**
 
-Welcome! This project is a modern Astro + Tailwind CSS web app focused on practical learning and reference for web application vulnerabilities, especially SQL Injection. It features dark dashboard-inspired UI, Persian (Farsi) translation, RTL layout, and custom font (Vazirmatn).
+Welcome! This project is a modern Astro + Tailwind CSS web app focused on practical learning and reference for web application vulnerabilities. It features dark dashboard-inspired UI, Persian (Farsi) translation, RTL layout, and custom font (Vazirmatn).
 
 This guide is designed for:
 
 * Red Teamers and penetration testers
+* Blue Teamers and preventions
 * Security researchers and students
-* Developers seeking to understand and prevent SQLi
 
 ---
 
