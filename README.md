@@ -9,6 +9,7 @@ You can view previews of the site in the `preview` directory as PNG images:
 ![Homepage Preview](preview/HomePage.png)
 ![SQL Injection Section](preview/SqliPage.png)
 ![XSS Section](preview/XssPage.png)
+![CSRF Section](preview/XssPage.png)
 
 
 > 🧠 **Maintained by XaocZenon — a comprehensive, visually-rich guide for web application security enthusiasts.**
