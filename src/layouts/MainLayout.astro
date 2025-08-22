@@ -23,85 +23,78 @@
         </div>
         
         <div class="nav-links">
-            <a href="/" class="nav-item active">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </a>
-            <div class="nav-category">Injection Attacks</div>
-            <a href="/sql" class="nav-item">
-                <i class="fas fa-database"></i>
-                <span>SQL Injection</span>
-            </a>
-            <a href="/xss" class="nav-item">
-                <i class="fas fa-code"></i>
-                <span>XSS</span>
-            </a>
-            <a href="/csrf" class="nav-item">
-                <i class="fas fa-exchange-alt"></i>
-                <span>CSRF</span>
-            </a>
-            <a href="/rce" class="nav-item">
-                <i class="fas fa-terminal"></i>
-                <span>RCE</span>
-            </a>
-            <div class="nav-category">Access Vulnerabilities</div>
-            <a href="/lfi" class="nav-item">
-                <i class="fas fa-file"></i>
-                <span>LFI</span>
-            </a>
-            <a href="/idor" class="nav-item">
-                <i class="fas fa-unlock"></i>
-                <span>IDOR</span>
-            </a>
-            <a href="/ssrf" class="nav-item">
-                <i class="fas fa-server"></i>
-                <span>SSRF</span>
-            </a>
-            <div class="nav-category">UI Vulnerabilities</div>
-            <a href="/clickjacking" class="nav-item">
-                <i class="fas fa-mouse-pointer"></i>
-                <span>Clickjacking</span>
-            </a>
-            <a href="/open-redirect" class="nav-item">
-                <i class="fas fa-external-link-alt"></i>
-                <span>Open Redirect</span>
-            </a>
+            {/** Use Astro's built-in URL object to determine the current path and set active class dynamically */}
+            {Astro.url && (
+              <>
+                <a href="/" class={`nav-item${Astro.url.pathname === '/' ? ' active' : ''}`}>
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <div class="nav-category">Injection Attacks</div>
+                <a href="/sql" class={`nav-item${Astro.url.pathname === '/sql' ? ' active' : ''}`}>
+                    <i class="fas fa-database"></i>
+                    <span>SQL Injection</span>
+                </a>
+                <a href="/xss" class={`nav-item${Astro.url.pathname === '/xss' ? ' active' : ''}`}>
+                    <i class="fas fa-code"></i>
+                    <span>XSS</span>
+                </a>
+                <a href="/csrf" class={`nav-item${Astro.url.pathname === '/csrf' ? ' active' : ''}`}>
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>CSRF</span>
+                </a>
+                <a href="/rce" class={`nav-item${Astro.url.pathname === '/rce' ? ' active' : ''}`}>
+                    <i class="fas fa-terminal"></i>
+                    <span>RCE</span>
+                </a>
+                <div class="nav-category">Access Vulnerabilities</div>
+                <a href="/lfi" class={`nav-item${Astro.url.pathname === '/lfi' ? ' active' : ''}`}>
+                    <i class="fas fa-file"></i>
+                    <span>LFI</span>
+                </a>
+                <a href="/idor" class={`nav-item${Astro.url.pathname === '/idor' ? ' active' : ''}`}>
+                    <i class="fas fa-unlock"></i>
+                    <span>IDOR</span>
+                </a>
+                <a href="/ssrf" class={`nav-item${Astro.url.pathname === '/ssrf' ? ' active' : ''}`}>
+                    <i class="fas fa-server"></i>
+                    <span>SSRF</span>
+                </a>
+                <div class="nav-category">UI Vulnerabilities</div>
+                <a href="/clickjacking" class={`nav-item${Astro.url.pathname === '/clickjacking' ? ' active' : ''}`}>
+                    <i class="fas fa-mouse-pointer"></i>
+                    <span>Clickjacking</span>
+                </a>
+                <a href="/open-redirect" class={`nav-item${Astro.url.pathname === '/open-redirect' ? ' active' : ''}`}>
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>Open Redirect</span>
+                </a>
+              </>
+            )}
         </div>
     </div>
-    
-    <!-- Main Content -->
-    <div class="main-content">
-        <h1 class="page-title">Hacker OWASP Web Guide</h1>
-        <p class="page-subtitle">Comprehensive security reference for web application vulnerabilities</p>
-        
-        <slot>
+    <div style="flex:1;display:flex;flex-direction:column;min-height:100vh;">
+        <main class="main-content" style="flex:1;">
+            <slot />
+        </main>
+        <footer class="w-full text-center py-6 border-t border-[#353c5c] text-[#aaa] bg-transparent" style="font-size:0.95rem;">
+            <div class="font-bold mb-2">Legal Notice</div>
+            <div>This content is provided for educational purposes only. Never test security vulnerabilities against systems without explicit permission. Unauthorized testing may violate laws.</div>
+        </footer>
     </div>
-
     <script>
-        // Simple search functionality
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const navItems = document.querySelectorAll('.nav-item');
-            
-            navItems.forEach(item => {
-                const text = item.textContent.toLowerCase();
-                if (text.includes(searchTerm)) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        if (!searchInput) return;
+        searchInput.addEventListener('input', function(e) {
+          const searchTerm = e.target.value.toLowerCase();
+          const navItems = document.querySelectorAll('.nav-item');
+          navItems.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+          });
         });
-        
-        // Set active nav item on click
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.nav-item').forEach(nav => {
-                    nav.classList.remove('active');
-                });
-                this.classList.add('active');
-            });
-        });
+      });
     </script>
 </body>
 </html>
