@@ -9,10 +9,12 @@ const { title } = Astro.props;
   <meta name="viewport" content="width=device-width">
   <title>{title}</title>
   <link rel="stylesheet" href="/styles/global.css">
+  <link rel="icon" type="image/svg+xml" href="/public/WebLogo.svg" />
+  <link rel="icon" type="image/png" href="/WebLogo.png" />
 </head>
 <body class="bg-black min-h-screen flex flex-col">
   <header class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
-    <div class="text-2xl font-bold">Hacker Owasp Guide</div>
+    <div class="text-2xl font-bold">Hacker Owasp Web Guide</div>
     <nav class="flex gap-6">
       <a href="/" class="px-3 py-1 rounded text-purple-400 bg-purple-900 font-semibold">Home</a>
       <a href="/sql" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">SQL Injection</a>
@@ -27,7 +29,7 @@ const { title } = Astro.props;
     </nav>
   </header>
   <main class="flex-1 flex flex-col items-center py-8">
-    <h2 class="text-4xl font-bold text-purple-600 mb-10">Hacker Owasp Guide</h2>
+    <h2 class="text-4xl font-bold text-purple-600 mb-10">Hacker Owasp Web Guide</h2>
     <slot />
   </main>
   <footer class="bg-red-900 text-white py-4 px-8 mt-auto">
@@ -35,4 +37,30 @@ const { title } = Astro.props;
     <div class="text-sm">This content is provided for educational purposes only. Never test security vulnerabilities against systems without explicit permission. Unauthorized testing may violate laws.</div>
   </footer>
 </body>
+<script>
+        // Simple search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        // Set active nav item on click
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+    </script>
 </html>
