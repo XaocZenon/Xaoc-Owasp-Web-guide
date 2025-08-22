@@ -1,43 +1,83 @@
----
-// src/layouts/MainLayout.astro
-const { title } = Astro.props;
----
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width">
-  <title>{title}</title>
-  <link rel="stylesheet" href="/styles/global.css">
-  <link rel="icon" type="image/svg+xml" href="/public/WebLogo.svg" />
-  <link rel="icon" type="image/png" href="/WebLogo.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker OWASP Web Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/src/styles/global.css">
+    <link rel="icon" type="image/svg+xml" href="/public/WebLogo.svg" />
+    <link rel="icon" type="image/png" href="/WebLogo.png" />
 </head>
-<body class="bg-black min-h-screen flex flex-col">
-  <header class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
-    <div class="text-2xl font-bold">Hacker Owasp Web Guide</div>
-    <nav class="flex gap-6">
-      <a href="/" class="px-3 py-1 rounded text-purple-400 bg-purple-900 font-semibold">Home</a>
-      <a href="/sql" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">SQL Injection</a>
-      <a href="/xss" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">XSS</a>
-      <a href="/csrf" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">CSRF</a>
-      <a href="/rce" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">RCE</a>
-      <a href="/lfi" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">LFI</a>
-      <a href="/idor" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">IDOR</a>
-      <a href="/ssrf" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">SSRF</a>
-      <a href="/clickjacking" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">Clickjacking</a>
-      <a href="/open-redirect" class="px-3 py-1 rounded text-gray-100 bg-purple-900 font-semibold hover:text-purple-400">Open Redirect</a>
-    </nav>
-  </header>
-  <main class="flex-1 flex flex-col items-center py-8">
-    <h2 class="text-4xl font-bold text-purple-600 mb-10">Hacker Owasp Web Guide</h2>
-    <slot />
-  </main>
-  <footer class="bg-red-900 text-white py-4 px-8 mt-auto">
-    <div class="font-bold mb-1">Legal Notice</div>
-    <div class="text-sm">This content is provided for educational purposes only. Never test security vulnerabilities against systems without explicit permission. Unauthorized testing may violate laws.</div>
-  </footer>
-</body>
-<script>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="logo">
+            <h1>Hacker OWASP Web Guide</h1>
+            <p>Security Reference Portal</p>
+        </div>
+        
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search vulnerabilities..." id="searchInput">
+        </div>
+        
+        <div class="nav-links">
+            <a href="/" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <div class="nav-category">Injection Attacks</div>
+            <a href="/sql" class="nav-item">
+                <i class="fas fa-database"></i>
+                <span>SQL Injection</span>
+            </a>
+            <a href="/xss" class="nav-item">
+                <i class="fas fa-code"></i>
+                <span>XSS</span>
+            </a>
+            <a href="/csrf" class="nav-item">
+                <i class="fas fa-exchange-alt"></i>
+                <span>CSRF</span>
+            </a>
+            <a href="/rce" class="nav-item">
+                <i class="fas fa-terminal"></i>
+                <span>RCE</span>
+            </a>
+            <div class="nav-category">Access Vulnerabilities</div>
+            <a href="/lfi" class="nav-item">
+                <i class="fas fa-file"></i>
+                <span>LFI</span>
+            </a>
+            <a href="/idor" class="nav-item">
+                <i class="fas fa-unlock"></i>
+                <span>IDOR</span>
+            </a>
+            <a href="/ssrf" class="nav-item">
+                <i class="fas fa-server"></i>
+                <span>SSRF</span>
+            </a>
+            <div class="nav-category">UI Vulnerabilities</div>
+            <a href="/clickjacking" class="nav-item">
+                <i class="fas fa-mouse-pointer"></i>
+                <span>Clickjacking</span>
+            </a>
+            <a href="/open-redirect" class="nav-item">
+                <i class="fas fa-external-link-alt"></i>
+                <span>Open Redirect</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title">Hacker OWASP Web Guide</h1>
+        <p class="page-subtitle">Comprehensive security reference for web application vulnerabilities</p>
+        
+        <slot>
+    </div>
+
+    <script>
         // Simple search functionality
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
@@ -63,4 +103,5 @@ const { title } = Astro.props;
             });
         });
     </script>
+</body>
 </html>

@@ -2,11 +2,14 @@
 // src/components/TermCard.astro
 const { term } = Astro.props;
 ---
-<div class="flex items-center bg-gray-100 rounded-xl p-4 shadow hover:-translate-y-1 hover:shadow-lg transition w-full max-w-5xl mb-6">
-  <div class="flex items-center">
-    <span class={`text-white font-bold rounded-md px-4 py-3 mr-4 shadow text-lg ${term.color}`}>{term.acronym}</span>
+<div class="bg-[#181f36] border border-[#353c5c] rounded-2xl p-6 shadow-md hover:shadow-xl transition w-full max-w-5xl mb-6">
+  <div class="flex items-center mb-2">
+    <span class={`font-bold rounded-full px-4 py-1 mr-3 text-base text-white ${term.color}`}>{term.acronym}</span>
+    <span class="text-xl font-semibold text-[#7c8cf8]">{term.fullName}</span>
   </div>
   <div>
-    <span class="text-2xl font-semibold text-purple-700">{term.fullName}</span>
+    <span class="text-base text-[#c3c8e8]">{term.description}</span>
+    <br />
+  <span class="text-base text-[#f7d560] font-vazir" dir="rtl" style="display:block;text-align:right">{term.descriptionFa}</span>
   </div>
 </div>

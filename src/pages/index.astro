@@ -3,18 +3,81 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import TermCard from '../components/TermCard.astro';
 const terms = [
-  { acronym: "SQL", fullName: "SQL Injection", slug: "sql", color: "bg-red-400" },
-  { acronym: "XSS", fullName: "Cross-Site Scripting", slug: "xss", color: "bg-orange-400" },
-  { acronym: "CSRF", fullName: "Cross-Site Request Forgery", slug: "csrf", color: "bg-blue-200 text-blue-900" },
-  { acronym: "RCE", fullName: "Remote Code Execution", slug: "rce", color: "bg-green-600" },
-  { acronym: "LFI", fullName: "Local File Inclusion", slug: "lfi", color: "bg-purple-500" },
-  { acronym: "IDOR", fullName: "Insecure Direct Object Reference", slug: "idor", color: "bg-pink-500" },
-  { acronym: "SSRF", fullName: "Server-Side Request Forgery", slug: "ssrf", color: "bg-orange-400" },
-  { acronym: "Clickjacking", fullName: "Clickjacking", slug: "clickjacking", color: "bg-green-500" },
-  { acronym: "Open Redirect", fullName: "Open Redirect", slug: "open-redirect", color: "bg-red-600" },
+  {
+    acronym: "SQL",
+    fullName: "SQL Injection",
+    slug: "sql",
+    color: "bg-red-400",
+    description: "Injection of malicious SQL commands to manipulate databases, potentially exposing sensitive data.",
+    descriptionFa: "تزریق دستورات مخرب SQL برای دستکاری پایگاه داده و افشای اطلاعات حساس."
+  },
+  {
+    acronym: "XSS",
+    fullName: "Cross-Site Scripting",
+    slug: "xss",
+    color: "bg-orange-400",
+    description: "Injecting malicious scripts into web pages viewed by other users, compromising their sessions.",
+    descriptionFa: "تزریق اسکریپت مخرب به صفحات وب برای سرقت نشست یا اطلاعات کاربران دیگر."
+  },
+  {
+    acronym: "CSRF",
+    fullName: "Cross-Site Request Forgery",
+    slug: "csrf",
+    color: "bg-blue-200 text-blue-900",
+    description: "Forcing users to execute unwanted actions on a web application where they're authenticated.",
+    descriptionFa: "وادار کردن کاربر به انجام عملیات ناخواسته در یک وب‌سایت که در آن وارد شده است."
+  },
+  {
+    acronym: "RCE",
+    fullName: "Remote Code Execution",
+    slug: "rce",
+    color: "bg-green-600",
+    description: "Executing arbitrary code on a target machine or in a target process from a remote location.",
+    descriptionFa: "اجرای کد دلخواه روی سرور یا سیستم هدف از راه دور."
+  },
+  {
+    acronym: "LFI",
+    fullName: "Local File Inclusion",
+    slug: "lfi",
+    color: "bg-purple-500",
+    description: "Inclusion of local files on a server through vulnerable web application code.",
+    descriptionFa: "درج فایل‌های محلی سرور از طریق آسیب‌پذیری در کد برنامه وب."
+  },
+  {
+    acronym: "IDOR",
+    fullName: "Insecure Direct Object Reference",
+    slug: "idor",
+    color: "bg-pink-500",
+    description: "Accessing objects directly by modifying input values without authorization checks.",
+    descriptionFa: "دسترسی مستقیم به اشیاء با تغییر ورودی‌ها بدون بررسی مجوز."
+  },
+  {
+    acronym: "SSRF",
+    fullName: "Server-Side Request Forgery",
+    slug: "ssrf",
+    color: "bg-orange-400",
+    description: "Forcing a server to make requests to internal or external resources without authorization.",
+    descriptionFa: "وادار کردن سرور به ارسال درخواست به منابع داخلی یا خارجی بدون مجوز."
+  },
+  {
+    acronym: "Clickjacking",
+    fullName: "Clickjacking",
+    slug: "clickjacking",
+    color: "bg-green-500",
+    description: "Tricking users into clicking on invisible or disguised elements to perform unintended actions.",
+    descriptionFa: "فریب کاربر برای کلیک روی عناصر پنهان یا جعلی جهت انجام عملیات ناخواسته."
+  },
+  {
+    acronym: "Open Redirect",
+    fullName: "Open Redirect",
+    slug: "open-redirect",
+    color: "bg-red-600",
+    description: "Redirecting users to untrusted sites by manipulating unvalidated redirect URLs.",
+    descriptionFa: "هدایت کاربر به سایت‌های غیرمجاز با دستکاری آدرس‌های ریدایرکت بدون اعتبارسنجی."
+  },
 ];
 ---
-<MainLayout title="Hacker Owasp Guide">
+<MainLayout title="Hacker Owasp Web Guide">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-6xl mx-auto px-4">
     {terms.map(term => (
       <a href={`/${term.slug}`} class="block">
