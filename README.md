@@ -6,7 +6,7 @@
 
 You can view previews of the site in the `preview` directory as PNG images:
 
-![Homepage Preview](preview/HomePage.png)
+![Homepage Preview](preview/Preview.png)
 
 
 
