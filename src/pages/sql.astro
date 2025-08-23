@@ -255,17 +255,19 @@ int id = Integer.parseInt(request.getParameter("id"));
   </div>
 </div>
 <!-- Database Hardening Section -->
-<div class="bg-slate-800 rounded-xl p-6 mb-6">
-  <div class="text-xl font-bold text-blue-400 mb-2">3. Database Hardening</div>
-  <div class="font-semibold text-gray-200 mb-1">کمترین سطح دسترسی (Least Privilege)</div>
-  <ul class="list-disc list-inside text-blue-200 mb-2" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+<div class="content-card">
+  <div class="content-subtitle-blue">3. Database Hardening</div>
+  
+  <div class="content-label">کمترین سطح دسترسی (Least Privilege)</div>
+  <ul class="content-list" dir="rtl">
     <li>فقط خواندن برای گزارش‌گیری (READ ONLY for reporting)</li>
     <li>عدم اجازه DROP/CREATE برای کاربران برنامه (No DROP/CREATE for app users)</li>
     <li>غیرفعال کردن xp_cmdshell در MSSQL (Disable xp_cmdshell in MSSQL)</li>
     <li>محدود کردن دسترسی FILE در MySQL (Restrict FILE privilege in MySQL)</li>
   </ul>
-  <div class="font-semibold text-gray-200 mb-1">پیکربندی‌های امن (Secure Configurations)</div>
-  <ul class="list-disc list-inside text-blue-200 mb-2" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+  
+  <div class="content-label">پیکربندی‌های امن (Secure Configurations)</div>
+  <ul class="content-list" dir="rtl">
     <li>غیرفعال کردن خطاهای verbose (Disable verbose errors)</li>
     <li>استفاده محتاطانه از stored procedureها (Use stored procedures carefully)</li>
     <li>فعال‌سازی فقط توابع مورد نیاز پایگاه داده (Enable only needed DB functions)</li>
@@ -273,16 +275,18 @@ int id = Integer.parseInt(request.getParameter("id"));
 </div>
 
 <!-- Runtime Protections Section -->
-<div class="bg-slate-800 rounded-xl p-6 mb-6">
-  <div class="text-xl font-bold text-blue-400 mb-2">4. Runtime Protections</div>
-  <div class="font-semibold text-gray-200 mb-1">قوانین WAF (WAF Rules)</div>
-  <ul class="list-disc list-inside text-blue-200 mb-2" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+<div class="content-card">
+  <div class="content-subtitle-blue">4. Runtime Protections</div>
+  
+  <div class="content-label">قوانین WAF (WAF Rules)</div>
+  <ul class="content-list" dir="rtl">
     <li>مسدودسازی الگوهای رایج SQLi (Block common SQLi patterns)</li>
     <li>محدودسازی نرخ فازینگ پارامترها (Rate limit parameter fuzzing)</li>
     <li>وصله مجازی برای آسیب‌پذیری‌های شناخته‌شده (Virtual patching for known vulns)</li>
   </ul>
-  <div class="font-semibold text-gray-200 mb-1">محافظت در زمان اجرا (RASP)</div>
-  <ul class="list-disc list-inside text-blue-200 mb-2" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+  
+  <div class="content-label">محافظت در زمان اجرا (RASP)</div>
+  <ul class="content-list" dir="rtl">
     <li>محافظت خودکار برنامه در زمان اجرا (Runtime Application Self-Protection)</li>
     <li>مسدودسازی SQL مخرب در زمان اجرا (Blocks malicious SQL at runtime)</li>
     <li>ارائه تله‌متری حمله (Provides attack telemetry)</li>
@@ -290,36 +294,36 @@ int id = Integer.parseInt(request.getParameter("id"));
 </div>
 
 <!-- Monitoring & Response Section -->
-<div class="bg-slate-800 rounded-xl p-6 mb-6">
-  <div class="text-xl font-bold text-blue-400 mb-2">5.Monitoring & Response</div>
+<div class="content-card">
+  <div class="content-subtitle-blue">5. Monitoring & Response</div>
   
-  <div class="font-semibold text-gray-200 mb-1">Detection Signatures</div>
-  <ul class="list-disc list-inside text-blue-200 mb-2" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+  <div class="content-label">Detection Signatures</div>
+  <ul class="content-list" dir="rtl">
     <li>دستورات UNION SELECT در کوئری‌ها</li>
     <li>شرایط چندگانه OR/AND</li>
     <li>دستورات SLEEP/WATTFOR</li>
     <li>دسترسی به Information_schema</li>
   </ul>
   
-  <div class="font-semibold text-gray-200 mb-1">Log Analysis</div>
-  <ul class="list-disc list-inside text-blue-200 mb-2" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+  <div class="content-label">Log Analysis</div>
+  <ul class="content-list" dir="rtl">
     <li>ادغام با SIEM</li>
     <li>تشخیص ناهنجاری‌ها</li>
     <li>تحلیل زمان‌بندی کوئری‌ها</li>
   </ul>
   
-  <div class="font-semibold text-gray-200 mb-1">Incident Response</div>
-  <ul class="list-disc list-inside text-blue-200 mb-2" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+  <div class="content-label">Incident Response</div>
+  <ul class="content-list" dir="rtl">
     <li>مکانیزم‌های قطع کوئری‌های مخرب</li>
     <li>خاتمه خودکار نشست‌های مشکوک</li>
     <li>ثبت کوئری‌ها برای بررسی قانونی</li>
   </ul>
-
-  
 </div>
-<div class="bg-slate-800 rounded-xl p-6 mb-6">
-  <div class="text-xl font-bold text-blue-400 mb-2">SQL Injection Mitigation Checklist</div>
-  <ul class="list-disc list-inside text-blue-200" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+
+<!-- Checklist Section -->
+<div class="content-card">
+  <div class="content-subtitle-blue">SQL Injection Mitigation Checklist</div>
+  <ul class="content-list" dir="rtl">
     <li>استفاده انحصاری از کوئری‌های queries/prepared استیتمنت‌ها</li>
     <li>اعتبارسنجی سختگیرانه ورودی‌ها (ترجیحاً با لیست سفید)</li>
     <li>اعمال اصل حداقل دسترسی برای حساب‌های دیتابیس</li>
@@ -330,22 +334,23 @@ int id = Integer.parseInt(request.getParameter("id"));
     <li>انجام تست‌های امنیتی و بازبینی کد به صورت منظم</li>
   </ul>
 </div>
-  <h2 class="text-3xl font-bold text-white mb-4">Additional Resources & References</h2>
-  <div class="bg-slate-800 rounded-xl p-6 mb-6">
-    <div class="text-lg font-bold text-yellow-400 mb-2">Learning Resources</div>
-    <ul class="list-disc list-inside text-blue-300">
-      <li><a class="text-blue-300 hover:underline" href="https://portswigger.net/web-security/sql-injection">PortSwigger SQL Injection Academy — Interactive labs</a></li>
-      <li><a class="text-blue-300 hover:underline" href="https://owasp.org/www-community/attacks/SQL_Injection">OWASP SQL Injection — Comprehensive documentation</a></li>
-      <li><a class="text-blue-300 hover:underline" href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection">PayloadsAllTheThings SQLi — Cheat sheet</a></li>
-    </ul>
-  </div>
-  <div class="bg-slate-800 rounded-xl p-6 mb-6">
-    <div class="text-lg font-bold text-yellow-400 mb-2">Security Tools</div>
-    <ul class="list-disc list-inside text-blue-300">
-      <li><span>SQLMap</span> — Automated SQL injection tool</li>
-      <li><span>jSQL Injection</span> — Java-based GUI tool</li>
-      <li><span>NoSQLMap</span> — For NoSQL injection</li>
-    </ul>
-  </div>
+
+<!-- Additional Resources Section -->
+<div class="content-card">
+  <div class="content-subtitle">Additional Resources & References</div>
+  
+  <div class="content-label">Learning Resources</div>
+  <ul class="content-list">
+    <li><a class="content-link" href="https://portswigger.net/web-security/sql-injection">PortSwigger SQL Injection Academy — Interactive labs</a></li>
+    <li><a class="content-link" href="https://owasp.org/www-community/attacks/SQL_Injection">OWASP SQL Injection — Comprehensive documentation</a></li>
+    <li><a class="content-link" href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection">PayloadsAllTheThings SQLi — Cheat sheet</a></li>
+  </ul>
+  
+  <div class="content-label">Security Tools</div>
+  <ul class="content-list">
+    <li><span class="tool-name">SQLMap</span> — Automated SQL injection tool</li>
+    <li><span class="tool-name">jSQL Injection</span> — Java-based GUI tool</li>
+    <li><span class="tool-name">NoSQLMap</span> — For NoSQL injection</li>
+  </ul>
 </div>
 </MainLayout>

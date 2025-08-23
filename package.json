@@ -10,8 +10,8 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.3",
-    "astro": "^5.12.8"
+    "@astrojs/mdx": "^4.3.4",
+    "astro": "^5.13.3"
   },
   "devDependencies": {
     "@astrojs/tailwind": "^6.0.2",

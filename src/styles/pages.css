@@ -63,6 +63,46 @@
   margin-bottom: 0.5rem;
 }
 
+/* Additional styles for defense sections */
+.content-link {
+  color: #93c5fd; /* blue-300 equivalent */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.content-link:hover {
+  color: #60a5fa; /* blue-400 equivalent */
+  text-decoration: underline;
+}
+
+.tool-name {
+  color: #93c5fd; /* blue-300 equivalent */
+  font-weight: 600;
+}
+
+/* Ensure proper styling for mixed content */
+.content-list:not([dir="rtl"]) {
+  direction: ltr;
+  text-align: left;
+}
+
+.content-list[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Special styling for the checklist */
+.content-card:last-child {
+  border: 2px solid rgba(96, 165, 250, 0.3); /* blue-400 with opacity */
+}
+
+.content-subtitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #ebeb0a; /* red-400 equivalent */
+  margin-bottom: 0.5rem;
+}
+
 .content-subtitle-red {
   font-size: 1.25rem;
   font-weight: bold;
