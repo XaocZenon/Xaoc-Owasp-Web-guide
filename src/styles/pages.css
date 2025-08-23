@@ -1,0 +1,160 @@
+@media (min-width: 768px) {
+    .grid > div {
+      display: flex;
+      flex-direction: column;
+    }
+    .grid > div > *:last-child {
+      margin-top: auto;
+    }
+  }
+  
+  /* Better RTL support */
+  [dir="rtl"] {
+    text-align: right;
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+  }
+  
+  /* Smooth scrolling for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Better pre tag wrapping */
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.page-header {
+  font-size: 2.25rem;
+  font-weight: bold;
+  color: #9333ea;
+  margin-bottom: 1rem;
+}
+
+.content-card {
+  background-color: #1e293b;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.content-title {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #fbbf24;
+  margin-bottom: 0.5rem;
+}
+
+.content-list {
+  list-style-type: disc;
+  list-style-position: inside;
+  color: white;
+}
+
+.content-list li {
+  margin-bottom: 0.5rem;
+}
+
+.content-subtitle-red {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #f87171; /* red-400 equivalent */
+  margin-bottom: 0.5rem;
+}
+
+.content-subtitle-blue {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #7191f8; /* blue-400 equivalent */
+  margin-bottom: 0.5rem;
+}
+
+.content-text {
+  color: white;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.content-label {
+  font-weight: 600;
+  color: #e5e7eb; /* gray-200 equivalent */
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+
+.code-block {
+  background-color: #0f172a; /* slate-900 equivalent */
+  border-radius: 0.5rem;
+  padding: 1rem;
+  color: #f1f5f9; /* gray-100 equivalent */
+  font-size: 0.875rem;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  font-family: 'Courier New', monospace;
+}
+
+.code-inline {
+  font-family: 'Courier New', monospace;
+  color: #fca5a5; /* red-300 equivalent */
+  background-color: rgba(248, 113, 113, 0.1);
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.25rem;
+}
+
+.TeamRed-title {
+    color: #ff0000;
+    font-size: 2.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.TeamBlue-title {
+    color: #0099ff;
+    font-size: 2.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.content-note {
+  color: #9ca3af; /* gray-400 equivalent */
+  font-size: 0.75rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  padding: 0.5rem;
+  background-color: rgba(156, 163, 175, 0.1);
+  border-radius: 0.25rem;
+  border-left: 3px solid #9ca3af;
+}
+
+/* Additional styles for lists */
+.content-list {
+  list-style-type: disc;
+  list-style-position: inside;
+  color: white;
+  margin-bottom: 1rem;
+  padding-right: 1rem;
+}
+
+.content-list li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.content-list[dir="rtl"] {
+  text-align: right;
+  direction: rtl;
+}
+
+/* Bold text within lists */
+.content-list .font-bold {
+  font-weight: 700;
+  color: #f87171; /* red-400 equivalent */
+}

