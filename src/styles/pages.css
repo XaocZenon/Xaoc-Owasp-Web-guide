@@ -75,11 +75,6 @@
   text-decoration: underline;
 }
 
-.tool-name {
-  color: #93c5fd; /* blue-300 equivalent */
-  font-weight: 600;
-}
-
 /* Ensure proper styling for mixed content */
 .content-list:not([dir="rtl"]) {
   direction: ltr;
@@ -198,3 +193,138 @@
   font-weight: 700;
   color: #f87171; /* red-400 equivalent */
 }
+
+/* Red background card */
+.red-card {
+  background-color: #991b1b; /* bg-red-800 equivalent */
+  border-radius: 0.75rem;    /* rounded-xl equivalent */
+  padding: 1.5rem;           /* p-6 equivalent */
+  margin-top: 1.5rem;        /* mt-6 equivalent */
+  margin-bottom: 2rem;       /* mb-8 equivalent */
+}
+
+/* Content title */
+.content-title {
+  font-size: 1.125rem;       /* text-lg equivalent */
+  font-weight: bold;
+  color: #fbbf24;            /* text-yellow-400 equivalent */
+  margin-bottom: 0.5rem;
+}
+
+/* Content list */
+.content-list {
+  list-style-type: disc;
+  list-style-position: inside;
+  color: white;
+}
+
+.content-list li {
+  margin-bottom: 0.75rem;    /* space-y-3 equivalent */
+}
+
+/* Code block */
+.code-block {
+  background-color: #0f172a; /* slate-900 equivalent */
+  border-radius: 0.5rem;
+  padding: 1rem;
+  color: #f1f5f9;            /* gray-100 equivalent */
+  font-size: 0.875rem;
+  overflow-x: auto;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-family: 'Courier New', monospace;
+}
+
+/* Nested list styles */
+.nested-list {
+  list-style-type: circle;
+  list-style-position: inside;
+  padding-left: 1.25rem; /* pl-5 equivalent */
+  color: #d1d5db; /* text-gray-300 equivalent */
+  margin-top: 0.25rem;
+}
+
+.nested-list li {
+  margin-bottom: 0.25rem;
+}
+
+/* Content label styles */
+.content-label {
+  font-weight: 600;
+  color: #e5e7eb; /* gray-200 equivalent */
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+/* Content list styles */
+.content-list {
+  list-style-type: disc;
+  list-style-position: inside;
+  color: white;
+}
+
+.content-list li {
+  margin-bottom: 0.5rem; /* space-y-2 equivalent */
+  line-height: 1.6;
+}
+
+/* Red card styles */
+.red-card {
+  background-color: #991b1b; /* bg-red-800 equivalent */
+  border-radius: 0.75rem;    /* rounded-xl equivalent */
+  padding: 1.5rem;           /* p-6 equivalent */
+  margin-top: 1.5rem;        /* mt-6 equivalent */
+  margin-bottom: 2rem;       /* mb-8 equivalent */
+}
+
+/* blue card styles */
+.blue-card {
+  background-color: #231b99; /* bg-red-800 equivalent */
+  border-radius: 0.75rem;    /* rounded-xl equivalent */
+  padding: 1.5rem;           /* p-6 equivalent */
+  margin-top: 1.5rem;        /* mt-6 equivalent */
+  margin-bottom: 2rem;       /* mb-8 equivalent */
+}
+
+/* Additional styles for tables */
+  .content-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    background-color: #1e293b;
+  }
+  
+  .content-table th, .content-table td {
+    border: 1px solid #374151;
+    padding: 0.5rem;
+    text-align: left;
+  }
+  
+  .content-table th {
+    background-color: #374151;
+    font-weight: bold;
+  }
+  
+  .content-table tr:nth-child(even) {
+    background-color: #1f2937;
+  }
+  
+  /* Grid layout for the unsafe/safe patterns */
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .text-red {
+    color: #f87171;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .text-green {
+    color: #10b981;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }

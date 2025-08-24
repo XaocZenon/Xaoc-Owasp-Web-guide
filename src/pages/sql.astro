@@ -258,7 +258,7 @@ int id = Integer.parseInt(request.getParameter("id"));
 <div class="content-card">
   <div class="content-subtitle-blue">3. Database Hardening</div>
   
-  <div class="content-label">کمترین سطح دسترسی (Least Privilege)</div>
+  <div class="content-label" dir="rtl">کمترین سطح دسترسی (Least Privilege)</div>
   <ul class="content-list" dir="rtl">
     <li>فقط خواندن برای گزارش‌گیری (READ ONLY for reporting)</li>
     <li>عدم اجازه DROP/CREATE برای کاربران برنامه (No DROP/CREATE for app users)</li>
@@ -266,7 +266,7 @@ int id = Integer.parseInt(request.getParameter("id"));
     <li>محدود کردن دسترسی FILE در MySQL (Restrict FILE privilege in MySQL)</li>
   </ul>
   
-  <div class="content-label">پیکربندی‌های امن (Secure Configurations)</div>
+  <div class="content-label" dir="rtl">پیکربندی‌های امن (Secure Configurations)</div>
   <ul class="content-list" dir="rtl">
     <li>غیرفعال کردن خطاهای verbose (Disable verbose errors)</li>
     <li>استفاده محتاطانه از stored procedureها (Use stored procedures carefully)</li>
@@ -278,14 +278,14 @@ int id = Integer.parseInt(request.getParameter("id"));
 <div class="content-card">
   <div class="content-subtitle-blue">4. Runtime Protections</div>
   
-  <div class="content-label">قوانین WAF (WAF Rules)</div>
+  <div class="content-label" dir="rtl">قوانین WAF (WAF Rules)</div>
   <ul class="content-list" dir="rtl">
     <li>مسدودسازی الگوهای رایج SQLi (Block common SQLi patterns)</li>
     <li>محدودسازی نرخ فازینگ پارامترها (Rate limit parameter fuzzing)</li>
     <li>وصله مجازی برای آسیب‌پذیری‌های شناخته‌شده (Virtual patching for known vulns)</li>
   </ul>
   
-  <div class="content-label">محافظت در زمان اجرا (RASP)</div>
+  <div class="content-label" dir="rtl">محافظت در زمان اجرا (RASP)</div>
   <ul class="content-list" dir="rtl">
     <li>محافظت خودکار برنامه در زمان اجرا (Runtime Application Self-Protection)</li>
     <li>مسدودسازی SQL مخرب در زمان اجرا (Blocks malicious SQL at runtime)</li>
@@ -348,9 +348,9 @@ int id = Integer.parseInt(request.getParameter("id"));
   
   <div class="content-label">Security Tools</div>
   <ul class="content-list">
-    <li><span class="tool-name">SQLMap</span> — Automated SQL injection tool</li>
-    <li><span class="tool-name">jSQL Injection</span> — Java-based GUI tool</li>
-    <li><span class="tool-name">NoSQLMap</span> — For NoSQL injection</li>
+    <li><a href="https://sqlmap.org/" class="content-link" target="_blank" rel="noopener noreferrer">SQLMap — Automated SQL injection tool</a></li>
+    <li><a href="https://github.com/ron190/jsql-injection" class="content-link" target="_blank" rel="noopener noreferrer">jSQL Injection — Java-based GUI tool</a></li>
+    <li><a href="https://github.com/codingo/NoSQLMap" class="content-link" target="_blank" rel="noopener noreferrer">NoSQLMap — For NoSQL injection</a></li>
   </ul>
 </div>
 </MainLayout>
