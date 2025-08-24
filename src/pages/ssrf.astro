@@ -1,0 +1,28 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+<MainLayout title="Server-Side Request Forgery (SSRF)">
+<div class="page-container">
+  <h1 class="page-header">Server-Side Request Forgery (SSRF)</h1>
+  
+  <div class="content-card">
+            <div class="content-title" dir="rtl" >SSRF چیست؟</div>
+            <p class="content-text" dir="rtl" >
+                جعل درخواست سمت سرور (SSRF) یک آسیب‌پذیری است که به مهاجم اجازه می‌دهد سرور را وادار به انجام درخواست‌های غیرمجاز به نمایندگی از مهاجم کند. این می‌تواند برای دسترسی به سیستم‌های داخلی، خواندن ابرداده‌های حساس یا حتی نفوذ به شبکه‌های خصوصی استفاده شود.
+            </p>
+        </div>
+        
+        <div class="content-card">
+            <div class="content-title" dir="rtl" >شدت تأثیر SSRF:</div>
+            <ul class="content-list" dir="rtl" >
+                <li>دسترسی به سرویس‌های داخلی (پایگاه داده‌ها، پنل‌های مدیریتی)</li>
+                <li>افشای ابرداده‌های ابری (کلیدهای AWS IAM، توکن‌های Azure)</li>
+                <li>اسکن پورت شبکه‌های داخلی</li>
+                <li>اجرای کد از راه دور از طریق سرویس‌های داخلی</li>
+                <li>دور زدن محدودیت‌های فایروال</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+</MainLayout>

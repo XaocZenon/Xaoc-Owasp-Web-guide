@@ -1,0 +1,28 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+<MainLayout title="IDOR (Insecure Direct Object Reference)">
+<div class="page-container">
+  <h1 class="page-header">IDOR (Insecure Direct Object Reference)</h1>
+  
+  <div class="content-card">
+            <div class="content-title" dir="rtl" >IDOR چیست؟</div>
+            <p class="content-text" dir="rtl" >
+                ارجاع ناامن مستقیم به شیء (IDOR) زمانی رخ می‌دهد که یک برنامه دسترسی مستقیم به اشیاء را بر اساس ورودی ارائه شده توسط کاربر بدون بررسی مجوز مناسب فراهم می‌کند.
+            </p>
+        </div>
+        
+        <div class="content-card">
+            <div class="content-title" dir="rtl" >شدت تأثیر IDOR:</div>
+            <ul class="content-list" dir="rtl" >
+                <li>دسترسی غیرمجاز به داده‌ها (اطلاعات شخصی، سوابق مالی و غیره)</li>
+                <li>تغییر یا حذف داده‌ها</li>
+                <li>تصاحب حساب</li>
+                <li>افزایش سطح دسترسی</li>
+                <li>تخلف از مقررات انطباق</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+</MainLayout>
